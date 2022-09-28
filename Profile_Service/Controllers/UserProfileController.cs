@@ -45,9 +45,9 @@ namespace Profile_Service.Controllers
         }
 
         [HttpGet("GetUserById")]
-        public async Task<ActionResult<UserDTO>> GetUserById(int Id)
+        public async Task<ActionResult<UserDTO>> GetUserById(Guid Id)
         {
-            UserDTO User = await _DbContext.Users.Select(
+            UserDTO? User = await _DbContext.Users.Select(
                     s => new UserDTO
                     {
                         Id = s.Id,
@@ -74,14 +74,12 @@ namespace Profile_Service.Controllers
         {
             var entity = new User()
             {
-                Id = User.Id,
                 FirstName = User.FirstName,
                 LastName = User.LastName,
                 Username = User.Username,
                 EmailAddress = User.EmailAddress,
                 Role = User.Role,
-                Password = User.Password,
-                EnrollmentDate = User.EnrollmentDate
+                Password = User.Password
             };
 
             _DbContext.Users.Add(entity);
@@ -108,7 +106,7 @@ namespace Profile_Service.Controllers
         }
 
         [HttpDelete("DeleteUser/{Id}")]
-        public async Task<HttpStatusCode> DeleteUser(int Id)
+        public async Task<HttpStatusCode> DeleteUser(Guid Id)
         {
             var entity = new User()
             {

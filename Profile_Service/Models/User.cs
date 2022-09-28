@@ -6,30 +6,29 @@ namespace Profile_Service.Models
     public partial class User
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public Guid Id { get; set; } = Guid.NewGuid();
 
         [Required]
-        public string? FirstName { get; set; }
+        public string FirstName { get; set; } = String.Empty;
 
         [Required]
-        public string? LastName { get; set; }
+        public string LastName { get; set; } = String.Empty;
 
         [Required]
-        public string? Username { get; set; }
+        public string Username { get; set; } = String.Empty;
 
         [Required]
         [DataType(DataType.EmailAddress)]
-        public string? EmailAddress { get; set; }
+        public string EmailAddress { get; set; } = String.Empty;
 
         [Required]
         [DataType(DataType.Password)]
-        public string? Password { get; set; }
+        public string Password { get; set; } = String.Empty;
 
         [Required]
-        public DateTime EnrollmentDate { get; set; }
+        public DateTime EnrollmentDate { get; set; } = DateTime.Now;
 
         [Required]
-        public string? Role { get; set; }
+        public string Role { get; set; } = "User";
     }
 }
