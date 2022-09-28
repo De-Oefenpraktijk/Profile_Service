@@ -1,0 +1,32 @@
+version: '3.4'
+
+services:
+  profile_service:
+    container_name: profileService
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "8080:80"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+    depends_on:
+      profile_service_db:
+        condition: service_healthy
+
+  profile_service_db:
+    container_name: profileService_db
+    environment:
+      MYSQL_ROOT_PASSWORD: "my-password"
+    ports:
+      - "3306:3306"
+    expose:
+      - "3306"
+    healthcheck:
+      test: curl --fail http://localhost:3306 || exit 1
+      interval: 10s
+      retries: 5
+      start_period: 5s
+      timeout: 10s
+    volumes:
+      - profileService_data:/var/lib/mysql
