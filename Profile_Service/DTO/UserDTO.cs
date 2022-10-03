@@ -30,5 +30,11 @@ namespace Profile_Service.DTO
 
         [Required]
         public string Role { get; set; } = "User";
+
+        public string Institutions { get; set; } = String.Empty;
+
+        public string Themes { get; set; } = String.Empty;
+
+        public string ResidencePlace { get; set; } = String.Empty;
     }
 }

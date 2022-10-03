@@ -19,6 +19,36 @@ namespace Profile_Service.Migrations
                 .HasAnnotation("ProductVersion", "6.0.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
+            modelBuilder.Entity("Profile_Service.Models.Institutions", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Institutions");
+                });
+
+            modelBuilder.Entity("Profile_Service.Models.Themes", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Themes");
+                });
+
             modelBuilder.Entity("Profile_Service.Models.User", b =>
                 {
                     b.Property<Guid>("Id")
@@ -36,6 +66,10 @@ namespace Profile_Service.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<string>("Institutions")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -44,7 +78,15 @@ namespace Profile_Service.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<string>("ResidencePlace")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Themes")
                         .IsRequired()
                         .HasColumnType("longtext");
 

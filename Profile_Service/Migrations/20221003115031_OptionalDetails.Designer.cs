@@ -11,8 +11,8 @@ using Profile_Service.Entities;
 namespace Profile_Service.Migrations
 {
     [DbContext(typeof(DBContext))]
-    [Migration("20220922111100_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20221003115031_OptionalDetails")]
+    partial class OptionalDetails
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,11 +21,41 @@ namespace Profile_Service.Migrations
                 .HasAnnotation("ProductVersion", "6.0.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            modelBuilder.Entity("OEF_Profile_service.Models.User", b =>
+            modelBuilder.Entity("Profile_Service.Models.Institutions", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Institutions");
+                });
+
+            modelBuilder.Entity("Profile_Service.Models.Themes", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Themes");
+                });
+
+            modelBuilder.Entity("Profile_Service.Models.User", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("EmailAddress")
                         .IsRequired()
@@ -38,6 +68,10 @@ namespace Profile_Service.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<string>("Institutions")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -46,7 +80,15 @@ namespace Profile_Service.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<string>("ResidencePlace")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Themes")
                         .IsRequired()
                         .HasColumnType("longtext");
 
