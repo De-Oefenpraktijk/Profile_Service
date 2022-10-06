@@ -1,0 +1,15 @@
+version: '3.4'
+
+services:
+  profile_service:
+    image: ${DOCKER_REGISTRY-}profileservice
+    build:
+      context: .
+      dockerfile: Profile_Service/Dockerfile
+    restart: on-failure
+
+  profile_service_db:
+    image: mysql
+
+volumes:
+  profileService_data:
