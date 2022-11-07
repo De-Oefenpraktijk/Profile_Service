@@ -10,6 +10,8 @@ builder.Services.Configure<DBContext>(
 
 builder.Services.AddScoped<DBContext>();
 builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<InstitutionService>();
+builder.Services.AddScoped<ThemeService>();
 
 builder.Services.AddControllers();
 
