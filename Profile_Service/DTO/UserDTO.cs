@@ -1,28 +1,16 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using Profile_Service.Entities;
+using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Bson;
 
 namespace Profile_Service.DTO
 {
     public class UserDTO
     {
-        public UserDTO(User user)
-        {
-            Id = user.Id!;
-            FirstName = user.FirstName;
-            LastName = user.LastName;
-            Username = user.Username;
-            EmailAddress = user.EmailAddress;
-            Password = user.Password;
-            EnrollmentDate = user.EnrollmentDate;
-            Role = user.Role;
-            Institutions = user.Institutions;
-            Themes = user.Themes;
-            ResidencePlace = user.ResidencePlace;
-        }
-
+        
         [Required]
-        public string Id { get; set; } = null!;
+        public Guid Id { get; set; }
 
         [Required]
         public string FirstName { get; set; } = null!;
