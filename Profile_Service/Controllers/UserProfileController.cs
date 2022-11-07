@@ -2,8 +2,7 @@
 using System.Net;
 using Profile_Service.Entities;
 using Profile_Service.DTO;
-using Profile_Service.Models;
-using Microsoft.EntityFrameworkCore;
+using Profile_Service.Services;
 
 namespace Profile_Service.Controllers
 {
@@ -11,110 +10,49 @@ namespace Profile_Service.Controllers
     [Route("api/[controller]")]
     public class UserController : ControllerBase
     {
-        private readonly DBContext _DbContext;
+        private readonly UserService _userService;
 
-        public UserController(DBContext DBContext)
+        public UserController(UserService userService)
         {
-            _DbContext = DBContext;
+            _userService = userService;
         }
 
 
         [HttpGet("GetUsers")]
         public async Task<ActionResult<List<UserDTO>>> Get()
         {
-            var List = await _DbContext.Users.Select(
-                s => new UserDTO
-                {
-                    Id = s.Id,
-                    FirstName = s.FirstName,
-                    LastName = s.LastName,
-                    Username = s.Username,
-                    Password = s.Password,
-                    EnrollmentDate = s.EnrollmentDate
-                }
-            ).ToListAsync();
-
-            if (List.Count < 0)
-            {
-                return NotFound();
-            }
-            else
-            {
-                return List;
-            }
+            var users = await _userService.GetUsers();
+            return Ok(users);
         }
 
         [HttpGet("GetUserById")]
-        public async Task<ActionResult<UserDTO>> GetUserById(Guid Id)
+        public async Task<ActionResult<UserDTO>> GetUserById(string Id)
         {
-            UserDTO? User = await _DbContext.Users.Select(
-                    s => new UserDTO
-                    {
-                        Id = s.Id,
-                        FirstName = s.FirstName,
-                        LastName = s.LastName,
-                        Username = s.Username,
-                        Password = s.Password,
-                        EnrollmentDate = s.EnrollmentDate
-                    })
-                .FirstOrDefaultAsync(s => s.Id == Id);
-
-            if (User == null)
-            {
+            var user = await _userService.GetUserByID(Id);
+            if (user == null)
                 return NotFound();
-            }
-            else
-            {
-                return User;
-            }
+                
+            return Ok(user);
         }
 
         [HttpPost("InsertUser")]
-        public async Task<HttpStatusCode> InsertUser(UserDTO User)
+        public async Task<HttpStatusCode> InsertUser(User User)
         {
-            var entity = new User()
-            {
-                FirstName = User.FirstName,
-                LastName = User.LastName,
-                Username = User.Username,
-                EmailAddress = User.EmailAddress,
-                Role = User.Role,
-                Password = User.Password
-            };
-
-            _DbContext.Users.Add(entity);
-            await _DbContext.SaveChangesAsync();
-
-            return HttpStatusCode.Created;
+            await _userService.CreateUser(User);
+            return HttpStatusCode.OK;
         }
 
         [HttpPut("UpdateUser")]
-        public async Task<HttpStatusCode> UpdateUser(UserDTO User)
+        public async Task<HttpStatusCode> UpdateUser(User User)
         {
-            var entity = await _DbContext.Users.FirstOrDefaultAsync(s => s.Id == User.Id);
-
-            entity.FirstName = User.FirstName;
-            entity.LastName = User.LastName;
-            entity.Username = User.Username;
-            entity.EmailAddress = User.EmailAddress;
-            entity.Password = User.Password;
-            entity.Role = User.Role;
-            entity.EnrollmentDate = User.EnrollmentDate;
-
-            await _DbContext.SaveChangesAsync();
+            await _userService.UpdateUser(User);
             return HttpStatusCode.OK;
         }
 
         [HttpDelete("DeleteUser/{Id}")]
-        public async Task<HttpStatusCode> DeleteUser(Guid Id)
+        public async Task<HttpStatusCode> DeleteUser(string Id)
         {
-            var entity = new User()
-            {
-                Id = Id
-            };
-            _DbContext.Users.Attach(entity);
-            _DbContext.Users.Remove(entity);
-            await _DbContext.SaveChangesAsync();
+            await _userService.DeleteUser(Id);
             return HttpStatusCode.OK;
         }
     }

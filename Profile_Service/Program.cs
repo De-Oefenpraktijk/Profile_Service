@@ -1,14 +1,15 @@
+using Microsoft.CodeAnalysis.Host;
 using Profile_Service.Entities;
-using Microsoft.EntityFrameworkCore;
+using Profile_Service.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddDbContext<DBContext>(options =>
-{
-    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
-});
+builder.Services.Configure<DBContext>(
+    builder.Configuration.GetSection("MongoDb"));
+
+builder.Services.AddScoped<DBContext>();
+builder.Services.AddScoped<UserService>();
 
 builder.Services.AddControllers();
 
@@ -17,12 +18,6 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
-
-using (var scope = app.Services.CreateScope())
-{
-    var db = scope.ServiceProvider.GetRequiredService<DBContext>();
-    db.Database.Migrate();
-}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

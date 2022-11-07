@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Profile_Service.DTO;
 using Profile_Service.Entities;
-using Profile_Service.Models;
+using Profile_Service.Services;
 
 namespace Profile_Service.Controllers
 {
@@ -15,68 +16,35 @@ namespace Profile_Service.Controllers
     [ApiController]
     public class InstitutionsController : ControllerBase
     {
-        private readonly DBContext _context;
+        private readonly InstitutionService _institutionService;
 
-        public InstitutionsController(DBContext context)
+        public InstitutionsController(InstitutionService institutionService)
         {
-            _context = context;
+            _institutionService = institutionService;
         }
 
         // GET: api/Institutions
         [HttpGet("GetInstitutions")]
         public async Task<ActionResult<IEnumerable<InstitutionsDTO>>> Get()
         {
-            var List = await _context.Institutions.Select(
-                s => new InstitutionsDTO
-                {
-                    Id = s.Id,
-                    Name = s.Name,
-                }
-            ).ToListAsync();
-
-            if (List.Count < 0)
-            {
-                return NotFound();
-            }
-            else
-            {
-                return List;
-            }
+            var institutions = await _institutionService.GetInstitutions();
+            return Ok(institutions);
         }
 
         // POST: api/Institutions
         [HttpPost("NewInstitution")]
-        public async Task<IActionResult> Post(InstitutionsDTO[] institutions)
+        public async Task<IActionResult> Post(Institutions institution)
         {
-            foreach (var institution in institutions)
-            {
-                var entity = new Institutions()
-                {
-                    Id=institution.Id,
-                    Name=institution.Name,
-                };
-
-                _context.Institutions.Add(entity);
-                await _context.SaveChangesAsync();
-            }
-            
+            await _institutionService.AddInstitution(institution);
             return Ok();
         }
 
         // DELETE: api/Institutions/5
         [HttpDelete("DeleteInstitution/{id}")]
-        public async Task<IActionResult> Delete(Guid id)
+        public async Task<IActionResult> Delete(string id)
         {
-            var institutions = await _context.Institutions.FindAsync(id);
-            if (institutions == null)
-            {
-                return NotFound();
-            }
-
-            _context.Institutions.Remove(institutions);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            await _institutionService.DeleteInstitution(id);
+            return Ok();
         }
     }
 }

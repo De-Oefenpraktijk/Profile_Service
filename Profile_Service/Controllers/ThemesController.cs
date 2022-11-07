@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Profile_Service.DTO;
 using Profile_Service.Entities;
-using Profile_Service.Models;
+using Profile_Service.Services;
 
 namespace Profile_Service.Controllers
 {
@@ -15,68 +15,35 @@ namespace Profile_Service.Controllers
     [ApiController]
     public class ThemesController : ControllerBase
     {
-        private readonly DBContext _context;
+        private readonly ThemeService _themeService;
 
-        public ThemesController(DBContext context)
+        public ThemesController(ThemeService themeService)
         {
-            _context = context;
+            _themeService = themeService;
         }
 
         // GET: api/Themes
         [HttpGet("GetThemes")]
         public async Task<ActionResult<IEnumerable<ThemesDTO>>> Get()
         {
-            var List = await _context.Themes.Select(
-                s => new ThemesDTO
-                {
-                    Id = s.Id,
-                    Name = s.Name,
-                }
-            ).ToListAsync();
-
-            if (List.Count < 0)
-            {
-                return NotFound();
-            }
-            else
-            {
-                return List;
-            }
+            var themes = await _themeService.GetThemes();
+            return Ok(themes);
         }
 
         // POST: api/Themes
         [HttpPost("NewInstitution")]
-        public async Task<IActionResult> Post(ThemesDTO[] Themes)
+        public async Task<IActionResult> Post(Themes theme)
         {
-            foreach (var institution in Themes)
-            {
-                var entity = new Themes()
-                {
-                    Id=institution.Id,
-                    Name=institution.Name,
-                };
-
-                _context.Themes.Add(entity);
-                await _context.SaveChangesAsync();
-            }
-            
+            await _themeService.AddTheme(theme);
             return Ok();
         }
 
         // DELETE: api/Themes/5
         [HttpDelete("DeleteInstitution/{id}")]
-        public async Task<IActionResult> Delete(Guid id)
+        public async Task<IActionResult> Delete(string id)
         {
-            var Themes = await _context.Themes.FindAsync(id);
-            if (Themes == null)
-            {
-                return NotFound();
-            }
-
-            _context.Themes.Remove(Themes);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            await _themeService.DeleteTheme(id);
+            return Ok();
         }
     }
 }

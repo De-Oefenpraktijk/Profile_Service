@@ -1,40 +1,54 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using Profile_Service.Entities;
 
 namespace Profile_Service.DTO
 {
     public class UserDTO
     {
-        [Key]
-        public Guid Id { get; set; } = Guid.NewGuid();
+        public UserDTO(User user)
+        {
+            Id = user.Id!;
+            FirstName = user.FirstName;
+            LastName = user.LastName;
+            Username = user.Username;
+            EmailAddress = user.EmailAddress;
+            Password = user.Password;
+            EnrollmentDate = user.EnrollmentDate;
+            Role = user.Role;
+            Institutions = user.Institutions;
+            Themes = user.Themes;
+            ResidencePlace = user.ResidencePlace;
+        }
 
         [Required]
-        public string FirstName { get; set; } = String.Empty;
+        public string Id { get; set; } = null!;
 
         [Required]
-        public string LastName { get; set; } = String.Empty;
+        public string FirstName { get; set; } = null!;
 
         [Required]
-        public string Username { get; set; } = String.Empty;
+        public string LastName { get; set; } = null!;
 
         [Required]
-        [DataType(DataType.EmailAddress)]
-        public string EmailAddress { get; set; } = String.Empty;
+        public string Username { get; set; } = null!;
 
         [Required]
-        [DataType(DataType.Password)]
-        public string Password { get; set; } = String.Empty;
+        public string EmailAddress { get; set; } = null!;
 
         [Required]
-        public DateTime EnrollmentDate { get; set; } = DateTime.Now;
+        public string Password { get; set; } = null!;
+
+        [Required]
+        public DateTime EnrollmentDate { get; set; }
 
         [Required]
         public string Role { get; set; } = "User";
 
-        public string Institutions { get; set; } = String.Empty;
+        public string? Institutions { get; set; }
 
-        public string Themes { get; set; } = String.Empty;
+        public string? Themes { get; set; }
 
-        public string ResidencePlace { get; set; } = String.Empty;
+        public string? ResidencePlace { get; set; }
     }
 }

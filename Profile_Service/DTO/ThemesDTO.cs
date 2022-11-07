@@ -1,13 +1,20 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Profile_Service.Entities;
 
 namespace Profile_Service.DTO
 {
     public class ThemesDTO
     {
-        [Key]
-        public Guid Id { get; set; }
+        public ThemesDTO(Themes theme)
+        {
+            Id = theme.Id!;
+            Name = theme.Name;
+        }
 
         [Required]
-        public string Name { get; set; } = String.Empty;
+        public string Id { get; set; }
+
+        [Required]
+        public string Name { get; set; }
     }
 }
