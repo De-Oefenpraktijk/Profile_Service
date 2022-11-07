@@ -20,6 +20,7 @@ namespace Profile_Service.Services
 
         public async Task<User> CreateUser(UserDTO _user)
         {
+
             var user = new User
             {
                 Id = new Guid(),
@@ -62,23 +63,23 @@ namespace Profile_Service.Services
         //    return result.Select(x => new UserDTO(x)).ToList();
         //}
 
-        public async Task<User> UpdateUser(UserDTO _user)
-        {
-            var user = new User
-            {
-                Username = _user.Username,
-                FirstName = _user.FirstName,
-                LastName = _user.LastName,
-                EmailAddress = _user.EmailAddress,
-                Password = _user.Password,
-                EnrollmentDate = _user.EnrollmentDate,
-                Role = _user.Role,
-                Institutions = _user.Institutions,
-                Themes = _user.Themes,
-                ResidencePlace = _user.ResidencePlace
-            };
-            await _context.Users.ReplaceOneAsync(x => x.Id == user.Id, user);
-            return user;
-        }
+        //public async Task<User> UpdateUser(UserDTO _user)
+        //{
+        //    var user = new User
+        //    {
+        //        Username = _user.Username,
+        //        FirstName = _user.FirstName,
+        //        LastName = _user.LastName,
+        //        EmailAddress = _user.EmailAddress,
+        //        Password = _user.Password,
+        //        EnrollmentDate = _user.EnrollmentDate,
+        //        Role = _user.Role,
+        //        Institutions = _user.Institutions,
+        //        Themes = _user.Themes,
+        //        ResidencePlace = _user.ResidencePlace
+        //    };
+        //    await _context.Users.ReplaceOneAsync(x => x.Id == user.Id, user);
+        //    return user;
+        //}
     }
 }

@@ -36,18 +36,18 @@ namespace Profile_Service.Controllers
         //}
 
         [HttpPost("InsertUser")]
-        public async Task<HttpStatusCode> InsertUser(UserDTO User)
+        public async Task<ActionResult> InsertUser(UserDTO User)
         {
             await _userService.CreateUser(User);
-            return HttpStatusCode.OK;
+            return Ok(User);
         }
 
-        [HttpPut("UpdateUser")]
-        public async Task<HttpStatusCode> UpdateUser(UserDTO User)
-        {
-            await _userService.UpdateUser(User);
-            return HttpStatusCode.OK;
-        }
+        //[HttpPut("UpdateUser")]
+        //public async Task<HttpStatusCode> UpdateUser(UserDTO User)
+        //{
+        //    await _userService.UpdateUser(User);
+        //    return HttpStatusCode.OK;
+        //}
 
         //[HttpDelete("DeleteUser/{Id}")]
         //public async Task<HttpStatusCode> DeleteUser(string Id)

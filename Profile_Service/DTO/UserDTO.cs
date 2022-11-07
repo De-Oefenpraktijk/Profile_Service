@@ -9,8 +9,7 @@ namespace Profile_Service.DTO
     public class UserDTO
     {
         
-        [Required]
-        public Guid Id { get; set; }
+
 
         [Required]
         public string FirstName { get; set; } = null!;

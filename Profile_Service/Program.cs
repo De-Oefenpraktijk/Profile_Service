@@ -1,6 +1,11 @@
 using Microsoft.CodeAnalysis.Host;
+using MongoDB.Bson.Serialization.Serializers;
+using MongoDB.Bson.Serialization;
+using MongoDB.Bson;
 using Profile_Service.Entities;
 using Profile_Service.Services;
+
+BsonSerializer.RegisterSerializer(new GuidSerializer(GuidRepresentation.Standard));
 
 var builder = WebApplication.CreateBuilder(args);
 
