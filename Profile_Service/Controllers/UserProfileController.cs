@@ -3,6 +3,7 @@ using System.Net;
 using Profile_Service.Entities;
 using Profile_Service.DTO;
 using Profile_Service.Services;
+using Microsoft.EntityFrameworkCore.Migrations.Operations;
 
 namespace Profile_Service.Controllers
 {
@@ -42,19 +43,19 @@ namespace Profile_Service.Controllers
             return Ok(User);
         }
 
-        //[HttpPut("UpdateUser")]
-        //public async Task<HttpStatusCode> UpdateUser(UserDTO User)
-        //{
-        //    await _userService.UpdateUser(User);
-        //    return HttpStatusCode.OK;
-        //}
+        [HttpPut("UpdateUser/{Id}")]
+        public async Task<ActionResult> UpdateUser(UserDTO User, string Id)
+        {
+            var updatedUser = await _userService.UpdateUser(User, Id);
+            return Ok(updatedUser);
+        }
 
-        //[HttpDelete("DeleteUser/{Id}")]
-        //public async Task<HttpStatusCode> DeleteUser(string Id)
-        //{
-        //    await _userService.DeleteUser(Id);
-        //    return HttpStatusCode.OK;
-        //}
+        [HttpDelete("DeleteUser/{Id}")]
+        public async Task<ActionResult> DeleteUser(string Id)
+        {
+            await _userService.DeleteUser(Id);
+            return Ok();
+        }
     }
 }
 

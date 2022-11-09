@@ -6,9 +6,10 @@ namespace Profile_Service.Entities
     public partial class User
     {
         [BsonId]
+        [BsonIgnoreIfDefault]
         public ObjectId Id { get; set; }
         
-        public string UserId { get; set; } = null!;
+        public string UserId { get; set; }
 
         public string FirstName { get; set; } = null!;
 

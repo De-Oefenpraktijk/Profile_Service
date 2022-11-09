@@ -41,11 +41,11 @@ namespace Profile_Service.Services
             return user;
         }
 
-        //public async Task<string> DeleteUser(string userId)
-        //{
-        //    await _context.Users.DeleteOneAsync(x => x.Id == userId);
-        //    return userId;
-        //}
+        public async Task<string> DeleteUser(string userId)
+        {
+            await _context.Users.DeleteOneAsync(x => x.UserId == userId);
+            return userId;
+        }
 
         public async Task<UserDTO> GetUserByID(string userId)
         {
@@ -75,23 +75,35 @@ namespace Profile_Service.Services
         //    return result.Select(x => new UserDTO(x)).ToList();
         //}
 
-        //public async Task<User> UpdateUser(UserDTO _user)
-        //{
-        //    var user = new User
-        //    {
-        //        Username = _user.Username,
-        //        FirstName = _user.FirstName,
-        //        LastName = _user.LastName,
-        //        EmailAddress = _user.EmailAddress,
-        //        Password = _user.Password,
-        //        EnrollmentDate = _user.EnrollmentDate,
-        //        Role = _user.Role,
-        //        Institutions = _user.Institutions,
-        //        Themes = _user.Themes,
-        //        ResidencePlace = _user.ResidencePlace
-        //    };
-        //    await _context.Users.ReplaceOneAsync(x => x.Id == user.Id, user);
-        //    return user;
-        //}
+        public async Task<UserDTO> UpdateUser(UserDTO _user, string _userId)
+        {
+            var user = new User
+            {
+                Username = _user.Username,
+                FirstName = _user.FirstName,
+                LastName = _user.LastName,
+                EmailAddress = _user.EmailAddress,
+                Password = _user.Password,
+                EnrollmentDate = _user.EnrollmentDate,
+                Role = _user.Role,
+                Institutions = _user.Institutions,
+                Themes = _user.Themes,
+                ResidencePlace = _user.ResidencePlace
+            };
+            await _context.Users.ReplaceOneAsync(x => x.UserId == _userId, user);
+            return new UserDTO()
+            {
+                Username = user.Username,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                EmailAddress = user.EmailAddress,
+                Password = user.Password,
+                EnrollmentDate = user.EnrollmentDate,
+                Role = user.Role,
+                Institutions = user.Institutions,
+                Themes = user.Themes,
+                ResidencePlace = user.ResidencePlace
+            };
+        }
     }
 }
