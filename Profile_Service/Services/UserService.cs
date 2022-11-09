@@ -1,8 +1,4 @@
 ﻿using Microsoft.CodeAnalysis;
-using Microsoft.Extensions.Options;
-using MongoDB.Bson.Serialization.Serializers;
-using MongoDB.Bson.Serialization;
-using MongoDB.Bson;
 using MongoDB.Driver;
 using Profile_Service.DTO;
 using Profile_Service.Entities;
@@ -20,7 +16,6 @@ namespace Profile_Service.Services
 
         public async Task<User> CreateUser(UserDTO _user)
         {
-
             var user = new User
             {
                 UserId = Guid.NewGuid().ToString(),
@@ -30,7 +25,7 @@ namespace Profile_Service.Services
                 EmailAddress = _user.EmailAddress,
                 Password = _user.Password,
                 EnrollmentDate = _user.EnrollmentDate,
-                Role = _user.Role,
+                Role = "User",
                 Institutions = _user.Institutions,
                 Themes = _user.Themes,
                 ResidencePlace = _user.ResidencePlace
@@ -69,16 +64,11 @@ namespace Profile_Service.Services
             };
         }
 
-        //public async Task<IEnumerable<UserDTO>> GetUsers()
-        //{
-        //    var result = await _context.Users.Find(_ => true).ToListAsync();
-        //    return result.Select(x => new UserDTO(x)).ToList();
-        //}
-
         public async Task<UserDTO> UpdateUser(UserDTO _user, string _userId)
         {
             var user = new User
             {
+                UserId = _userId,
                 Username = _user.Username,
                 FirstName = _user.FirstName,
                 LastName = _user.LastName,

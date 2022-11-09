@@ -18,14 +18,6 @@ namespace Profile_Service.Controllers
             _userService = userService;
         }
 
-
-        //[HttpGet("GetUsers")]
-        //public async Task<ActionResult<List<UserDTO>>> Get()
-        //{
-        //    var users = await _userService.GetUsers();
-        //    return Ok(users);
-        //}
-
         [HttpGet("GetUserById")]
         public async Task<ActionResult<UserDTO>> GetUserById(string Id)
         {

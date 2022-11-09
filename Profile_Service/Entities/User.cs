@@ -9,26 +9,26 @@ namespace Profile_Service.Entities
         [BsonIgnoreIfDefault]
         public ObjectId Id { get; set; }
         
-        public string UserId { get; set; }
+        public string? UserId { get; set; }
 
-        public string FirstName { get; set; } = null!;
+        public string? FirstName { get; set; }
 
-        public string LastName { get; set; } = null!;
+        public string? LastName { get; set; }
 
-        public string Username { get; set; } = null!;
+        public string? Username { get; set; }
 
-        public string EmailAddress { get; set; } = null!;
+        public string? EmailAddress { get; set; }
 
-        public string Password { get; set; } = null!;
+        public string? Password { get; set; }
 
         public DateTime EnrollmentDate { get; set; }
 
-        public string Role { get; set; } = "User";
+        public string? Role { get; set; }
 
-        public string Institutions { get; set; } = null!;
+        public string? Institutions { get; set; }
 
-        public string Themes { get; set; } = null!;
+        public string? Themes { get; set; }
 
-        public string ResidencePlace { get; set; } = null!;
+        public string? ResidencePlace { get; set; }
     }
 }
