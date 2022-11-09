@@ -23,7 +23,7 @@ namespace Profile_Service.Services
 
             var user = new User
             {
-                Id = new Guid(),
+                UserId = Guid.NewGuid().ToString(),
                 Username = _user.Username,
                 FirstName = _user.FirstName,
                 LastName = _user.LastName,
@@ -47,15 +47,27 @@ namespace Profile_Service.Services
         //    return userId;
         //}
 
-        //public async Task<UserDTO> GetUserByID(string userId)
-        //{
-        //    var user = await _context.Users.Find(x => x.Id == userId).FirstOrDefaultAsync();
-        //    if (user == null)
-        //    {
-        //        throw new Exception("User does not exist");
-        //    }
-        //    return new UserDTO(user);
-        //}
+        public async Task<UserDTO> GetUserByID(string userId)
+        {
+            var user = await _context.Users.Find(x => x.UserId == userId).FirstOrDefaultAsync();
+            if (user == null)
+            {
+                throw new Exception("User does not exist");
+            }
+            return new UserDTO()
+            {
+                Username = user.Username,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                EmailAddress = user.EmailAddress,
+                Password = user.Password,
+                EnrollmentDate = user.EnrollmentDate,
+                Role = user.Role,
+                Institutions = user.Institutions,
+                Themes = user.Themes,
+                ResidencePlace = user.ResidencePlace
+            };
+        }
 
         //public async Task<IEnumerable<UserDTO>> GetUsers()
         //{

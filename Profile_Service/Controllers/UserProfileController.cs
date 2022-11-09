@@ -25,15 +25,15 @@ namespace Profile_Service.Controllers
         //    return Ok(users);
         //}
 
-        //[HttpGet("GetUserById")]
-        //public async Task<ActionResult<UserDTO>> GetUserById(string Id)
-        //{
-        //    var user = await _userService.GetUserByID(Id);
-        //    if (user == null)
-        //        return NotFound();
-                
-        //    return Ok(user);
-        //}
+        [HttpGet("GetUserById")]
+        public async Task<ActionResult<UserDTO>> GetUserById(string Id)
+        {
+            var user = await _userService.GetUserByID(Id);
+            if (user == null)
+                return NotFound();
+
+            return Ok(user);
+        }
 
         [HttpPost("InsertUser")]
         public async Task<ActionResult> InsertUser(UserDTO User)

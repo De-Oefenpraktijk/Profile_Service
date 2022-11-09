@@ -8,9 +8,6 @@ namespace Profile_Service.DTO
 {
     public class UserDTO
     {
-        
-
-
         [Required]
         public string FirstName { get; set; } = null!;
 
