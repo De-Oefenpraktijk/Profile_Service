@@ -4,18 +4,21 @@ using Profile_Service.Entities;
 using Profile_Service.DTO;
 using Profile_Service.Services;
 using Microsoft.EntityFrameworkCore.Migrations.Operations;
+using MassTransit;
 
 namespace Profile_Service.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     public class UserController : ControllerBase
     {
         private readonly UserService _userService;
+        private readonly IPublishEndpoint _publish;
 
-        public UserController(UserService userService)
+        public UserController(UserService userService, IPublishEndpoint publish)
         {
             _userService = userService;
+            _publish = publish;
         }
 
         [HttpGet("GetUserById")]
