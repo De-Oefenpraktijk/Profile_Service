@@ -13,28 +13,28 @@ namespace Profile_Service.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ThemesController : ControllerBase
+    public class SpecializationController : ControllerBase
     {
-        private readonly ThemeService _themeService;
+        private readonly SpecializationService _specializationService;
 
-        public ThemesController(ThemeService themeService)
+        public SpecializationController(SpecializationService specializationService)
         {
-            _themeService = themeService;
+            _specializationService = specializationService;
         }
 
         // GET: api/Themes
-        [HttpGet("GetThemes")]
-        public async Task<ActionResult<IEnumerable<ThemesDTO>>> Get()
+        [HttpGet("GetSpecialization")]
+        public async Task<ActionResult<IEnumerable<SpecializationDTO>>> Get()
         {
-            var themes = await _themeService.GetThemes();
+            var themes = await _specializationService.GetSpecialization();
             return Ok(themes);
         }
 
         // POST: api/Themes
         [HttpPost("NewInstitution")]
-        public async Task<IActionResult> Post(Themes theme)
+        public async Task<IActionResult> Post(SpecializationDTO theme)
         {
-            await _themeService.AddTheme(theme);
+            await _specializationService.AddSpecialization(theme);
             return Ok();
         }
 
@@ -42,7 +42,7 @@ namespace Profile_Service.Controllers
         [HttpDelete("DeleteInstitution/{id}")]
         public async Task<IActionResult> Delete(string id)
         {
-            await _themeService.DeleteTheme(id);
+            await _specializationService.DeleteSpecialization(id);
             return Ok();
         }
     }

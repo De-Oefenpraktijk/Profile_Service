@@ -3,7 +3,7 @@ using MongoDB.Bson;
 
 namespace Profile_Service.Entities
 {
-    public class Themes
+    public class Specialization
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]

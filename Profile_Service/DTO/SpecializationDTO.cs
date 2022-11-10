@@ -3,9 +3,9 @@ using Profile_Service.Entities;
 
 namespace Profile_Service.DTO
 {
-    public class ThemesDTO
+    public class SpecializationDTO
     {
-        public ThemesDTO(Themes theme)
+        public SpecializationDTO(Specialization theme)
         {
             Id = theme.Id!;
             Name = theme.Name;

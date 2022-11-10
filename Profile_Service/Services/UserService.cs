@@ -16,13 +16,26 @@ namespace Profile_Service.Services
         {
             _context = context;
             _mapper = mapper;
+            
         }
 
         public async Task<User> CreateUser(UserDTO _user)
         {
-            var user = _mapper.Map<User>(_user);
-            user.UserId = Guid.NewGuid().ToString();
-            user.Role = "User";
+            var user = new User
+            {
+                UserId = Guid.NewGuid().ToString(),
+                Username = _user.Username,
+                FirstName = _user.FirstName,
+                LastName = _user.LastName,
+                EmailAddress = _user.EmailAddress,
+                Password = _user.Password,
+                EnrollmentDate = _user.EnrollmentDate,
+                Role = "User",
+                Institutions = _user.Institutions,
+                Themes = _user.Themes,
+                ResidencePlace = _user.ResidencePlace
+            };
+
 
             await _context.Users.InsertOneAsync(user);
             return user;

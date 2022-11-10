@@ -6,47 +6,47 @@ using Profile_Service.Entities;
 
 namespace Profile_Service.Services
 {
-    public class ThemeService
+    public class SpecializationService
     {
         private readonly DBContext _context;
         
-        public ThemeService(DBContext context)
+        public SpecializationService(DBContext context)
         {
             _context = context;
         }
 
-        public async Task<ThemesDTO> AddTheme(Themes theme)
+        public async Task<SpecializationDTO> AddSpecialization(Specialization theme)
         {
             await _context.Themes.InsertOneAsync(theme);
-            return new ThemesDTO(theme);
+            return new SpecializationDTO(theme);
         }
 
-        public async Task<string> DeleteTheme(string themeId)
+        public async Task<string> DeleteSpecialization(string themeId)
         {
             await _context.Themes.DeleteOneAsync(x => x.Id == themeId);
             return themeId;
         }
 
-        public async Task<ThemesDTO> GetThemeByID(string themeId)
+        public async Task<SpecializationDTO> GetThemeByID(string themeId)
         {
             var theme = await _context.Themes.Find(x => x.Id == themeId).FirstOrDefaultAsync();
             if (theme == null)
             {
                 throw new Exception("Theme does not exist");
             }
-            return new ThemesDTO(theme);
+            return new SpecializationDTO(theme);
         }
 
-        public async Task<IEnumerable<ThemesDTO>> GetThemes()
+        public async Task<IEnumerable<SpecializationDTO>> GetSpecialization()
         {
             var result = await _context.Themes.Find(_ => true).ToListAsync();
-            return result.Select(x => new ThemesDTO(x)).ToList();
+            return result.Select(x => new SpecializationDTO(x)).ToList();
         }
 
-        public async Task<ThemesDTO> UpdateTheme(Themes theme)
+        public async Task<SpecializationDTO> UpdateSpecialization(Specialization theme)
         {
             await _context.Themes.ReplaceOneAsync(x => x.Id == theme.Id, theme);
-            return new ThemesDTO(theme);
+            return new SpecializationDTO(theme);
         }
     }
 }
