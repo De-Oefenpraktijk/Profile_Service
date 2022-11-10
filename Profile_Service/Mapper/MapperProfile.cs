@@ -12,6 +12,7 @@ namespace Profile_Service.Mapper
         {
             CreateMap<User, ProfileUpdatedEvent>().ReverseMap();
             CreateMap<UserDTO, ProfileUpdatedEvent>().ReverseMap();
+            CreateMap<User, UserDTO>().ReverseMap();
         }
     }
 }

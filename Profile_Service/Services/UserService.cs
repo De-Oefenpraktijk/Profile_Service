@@ -1,4 +1,6 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using AutoMapper;
+using EventBus.Messages.Events;
+using Microsoft.CodeAnalysis;
 using MongoDB.Driver;
 using Profile_Service.DTO;
 using Profile_Service.Entities;
@@ -8,29 +10,19 @@ namespace Profile_Service.Services
     public class UserService
     {
         private readonly DBContext _context;
-        
-        public UserService(DBContext context)
+        private readonly IMapper _mapper;
+
+        public UserService(DBContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         public async Task<User> CreateUser(UserDTO _user)
         {
-            var user = new User
-            {
-                UserId = Guid.NewGuid().ToString(),
-                Username = _user.Username,
-                FirstName = _user.FirstName,
-                LastName = _user.LastName,
-                EmailAddress = _user.EmailAddress,
-                Password = _user.Password,
-                EnrollmentDate = _user.EnrollmentDate,
-                Role = "User",
-                Institutions = _user.Institutions,
-                Themes = _user.Themes,
-                ResidencePlace = _user.ResidencePlace
-            };
-
+            var user = _mapper.Map<User>(_user);
+            user.UserId = Guid.NewGuid().ToString();
+            user.Role = "User";
 
             await _context.Users.InsertOneAsync(user);
             return user;
@@ -49,51 +41,46 @@ namespace Profile_Service.Services
             {
                 throw new Exception("User does not exist");
             }
-            return new UserDTO()
-            {
-                Username = user.Username,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                EmailAddress = user.EmailAddress,
-                Password = user.Password,
-                EnrollmentDate = user.EnrollmentDate,
-                Role = user.Role,
-                Institutions = user.Institutions,
-                Themes = user.Themes,
-                ResidencePlace = user.ResidencePlace
-            };
+
+            return _mapper.Map<UserDTO>(user);
         }
 
         public async Task<UserDTO> UpdateUser(UserDTO _user, string _userId)
         {
-            var user = new User
-            {
-                UserId = _userId,
-                Username = _user.Username,
-                FirstName = _user.FirstName,
-                LastName = _user.LastName,
-                EmailAddress = _user.EmailAddress,
-                Password = _user.Password,
-                EnrollmentDate = _user.EnrollmentDate,
-                Role = _user.Role,
-                Institutions = _user.Institutions,
-                Themes = _user.Themes,
-                ResidencePlace = _user.ResidencePlace
-            };
+            //var user = new User
+            //{
+            //    UserId = _userId,
+            //    Username = _user.Username,
+            //    FirstName = _user.FirstName,
+            //    LastName = _user.LastName,
+            //    EmailAddress = _user.EmailAddress,
+            //    Password = _user.Password,
+            //    EnrollmentDate = _user.EnrollmentDate,
+            //    Role = _user.Role,
+            //    Institutions = _user.Institutions,
+            //    Themes = _user.Themes,
+            //    ResidencePlace = _user.ResidencePlace
+            //};
+
+            var user = _mapper.Map<User>(_user);
+            user.UserId = _userId;
+
             await _context.Users.ReplaceOneAsync(x => x.UserId == _userId, user);
-            return new UserDTO()
-            {
-                Username = user.Username,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                EmailAddress = user.EmailAddress,
-                Password = user.Password,
-                EnrollmentDate = user.EnrollmentDate,
-                Role = user.Role,
-                Institutions = user.Institutions,
-                Themes = user.Themes,
-                ResidencePlace = user.ResidencePlace
-            };
+            //return new UserDTO()
+            //{
+            //    Username = user.Username,
+            //    FirstName = user.FirstName,
+            //    LastName = user.LastName,
+            //    EmailAddress = user.EmailAddress,
+            //    Password = user.Password,
+            //    EnrollmentDate = user.EnrollmentDate,
+            //    Role = user.Role,
+            //    Institutions = user.Institutions,
+            //    Themes = user.Themes,
+            //    ResidencePlace = user.ResidencePlace
+            //};
+
+            return _mapper.Map<UserDTO>(user);
         }
     }
 }
