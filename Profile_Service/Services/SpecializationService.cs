@@ -1,5 +1,7 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using AutoMapper;
+using Microsoft.CodeAnalysis;
 using Microsoft.Extensions.Options;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using Profile_Service.DTO;
 using Profile_Service.Entities;
@@ -9,44 +11,47 @@ namespace Profile_Service.Services
     public class SpecializationService
     {
         private readonly DBContext _context;
-        
-        public SpecializationService(DBContext context)
+        private readonly IMapper _mapper;
+
+        public SpecializationService(DBContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
-        public async Task<SpecializationDTO> AddSpecialization(Specialization theme)
+        public async Task<Specialization> AddSpecialization(SpecializationDTO _specialization)
         {
-            await _context.Themes.InsertOneAsync(theme);
-            return new SpecializationDTO(theme);
+            var specialization = _mapper.Map<Specialization>(_specialization);
+
+            await _context.Specialization.InsertOneAsync(specialization);
+            return specialization;
         }
 
-        public async Task<string> DeleteSpecialization(string themeId)
+        public async Task<ObjectId> DeleteSpecialization(ObjectId specializationId)
         {
-            await _context.Themes.DeleteOneAsync(x => x.Id == themeId);
-            return themeId;
-        }
-
-        public async Task<SpecializationDTO> GetThemeByID(string themeId)
-        {
-            var theme = await _context.Themes.Find(x => x.Id == themeId).FirstOrDefaultAsync();
-            if (theme == null)
-            {
-                throw new Exception("Theme does not exist");
-            }
-            return new SpecializationDTO(theme);
+            await _context.Specialization.DeleteOneAsync(x => x.Id == specializationId);
+            return specializationId;
         }
 
         public async Task<IEnumerable<SpecializationDTO>> GetSpecialization()
         {
-            var result = await _context.Themes.Find(_ => true).ToListAsync();
-            return result.Select(x => new SpecializationDTO(x)).ToList();
+
+            var result = await _context.Specialization.Find(_ => true).ToListAsync();
+            var list = new List<SpecializationDTO>();
+            foreach(var i in result)
+            {
+                var specialization = _mapper.Map<SpecializationDTO>(i);
+                list.Add(specialization);
+            }
+
+            return list;
         }
 
-        public async Task<SpecializationDTO> UpdateSpecialization(Specialization theme)
+        public async Task<Specialization> UpdateSpecialization(SpecializationDTO _specialization, ObjectId _specializationId)
         {
-            await _context.Themes.ReplaceOneAsync(x => x.Id == theme.Id, theme);
-            return new SpecializationDTO(theme);
+            var specialization = _mapper.Map<Specialization>(_specialization);
+            await _context.Specialization.ReplaceOneAsync(x => x.Id == _specializationId, specialization);
+            return specialization;
         }
     }
 }

@@ -8,6 +8,8 @@ using MassTransit;
 using AutoMapper;
 using EventBus.Messages.Events;
 
+
+
 namespace Profile_Service.Controllers
 {
     [ApiController]
@@ -18,12 +20,16 @@ namespace Profile_Service.Controllers
         private readonly IMapper _mapper;
         private readonly IPublishEndpoint _publish;
 
+
+
         public UserController(UserService userService, IMapper mapper, IPublishEndpoint publish)
         {
             _userService = userService;
             _publish = publish;
             _mapper = mapper;
         }
+
+
 
         [HttpGet("GetUserById")]
         public async Task<ActionResult<UserDTO>> GetUserById(string Id)
@@ -32,13 +38,19 @@ namespace Profile_Service.Controllers
             if (user == null)
                 return NotFound();
 
+
+
             return Ok(user);
         }
+
+
 
         [HttpPost("InsertUser")]
         public async Task<ActionResult> InsertUser(UserDTO User)
         {
             var result = await _userService.CreateUser(User);
+
+
 
             // If result, map to event "model" and publish to MQ.
             if (result != null)
@@ -47,13 +59,19 @@ namespace Profile_Service.Controllers
                 await _publish.Publish(message);
             }
 
-            return Ok(User);
+
+
+            return Ok(result);
         }
+
+
 
         [HttpPut("UpdateUser/{Id}")]
         public async Task<ActionResult> UpdateUser(UserDTO User, string Id)
         {
             var updatedUser = await _userService.UpdateUser(User, Id);
+
+
 
             if (updatedUser != null)
             {
@@ -61,8 +79,12 @@ namespace Profile_Service.Controllers
                 await _publish.Publish(message);
             }
 
+
+
             return Ok(updatedUser);
         }
+
+
 
         [HttpDelete("DeleteUser/{Id}")]
         public async Task<ActionResult> DeleteUser(string Id)
@@ -72,4 +94,3 @@ namespace Profile_Service.Controllers
         }
     }
 }
-

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MongoDB.Bson;
 using Profile_Service.DTO;
 using Profile_Service.Entities;
 using Profile_Service.Services;
@@ -31,16 +32,16 @@ namespace Profile_Service.Controllers
         }
 
         // POST: api/Themes
-        [HttpPost("NewInstitution")]
-        public async Task<IActionResult> Post(SpecializationDTO theme)
+        [HttpPost("PostSpecialization")]
+        public async Task<IActionResult> Post(SpecializationDTO specialization)
         {
-            await _specializationService.AddSpecialization(theme);
+            await _specializationService.AddSpecialization(specialization);
             return Ok();
         }
 
         // DELETE: api/Themes/5
-        [HttpDelete("DeleteInstitution/{id}")]
-        public async Task<IActionResult> Delete(string id)
+        [HttpDelete("DeleteSpecialization/{id}")]
+        public async Task<IActionResult> Delete(ObjectId id)
         {
             await _specializationService.DeleteSpecialization(id);
             return Ok();
