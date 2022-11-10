@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.CodeAnalysis;
 using Microsoft.Extensions.Options;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using Profile_Service.DTO;
 using Profile_Service.Entities;
@@ -21,7 +22,6 @@ namespace Profile_Service.Services
         public async Task<EducationDTO> AddEducation(EducationDTO _education)
         {
             var education = _mapper.Map<Education>(_education);
-            education.EducationId = Guid.NewGuid().ToString();
             
             await _context.Education.InsertOneAsync(education);
             
@@ -30,13 +30,14 @@ namespace Profile_Service.Services
 
         public async Task<string> DeleteEducation(string educationId)
         {
-            await _context.Education.DeleteOneAsync(x => x.EducationId == educationId);
+            await _context.Education.DeleteOneAsync(x => x.Id == educationId);
+            
             return educationId;
         }
 
         public async Task<EducationDTO> GetEducationByID(string educationId)
         {
-            var education = await _context.Education.Find(x => x.EducationId == educationId).FirstOrDefaultAsync();
+            var education = await _context.Education.Find(x => x.Id == educationId).FirstOrDefaultAsync();
             if (education == null)
             {
                 throw new Exception("Education does not exist");
@@ -60,12 +61,12 @@ namespace Profile_Service.Services
             return educationDTOs;
         }
 
-        public async Task<EducationDTO> UpdateEducation(EducationDTO _education, string educationId)
+        public async Task<EducationDTO> UpdateEducation(EducationDTO _education, string Id)
         {
             var education = _mapper.Map<Education>(_education);
-            education.EducationId = educationId;
+            education.Id = Id;
 
-            await _context.Education.ReplaceOneAsync(x => x.EducationId == educationId, education);
+            await _context.Education.ReplaceOneAsync(x => x.Id == Id, education);
 
             return _education;
         }

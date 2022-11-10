@@ -7,8 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations.Operations;
 using MassTransit;
 using AutoMapper;
 using EventBus.Messages.Events;
-
-
+using MongoDB.Bson;
 
 namespace Profile_Service.Controllers
 {
@@ -31,14 +30,12 @@ namespace Profile_Service.Controllers
 
 
 
-        [HttpGet("GetUserById")]
+        [HttpGet("GetUserById/{Id}")]
         public async Task<ActionResult<UserDTO>> GetUserById(string Id)
         {
             var user = await _userService.GetUserByID(Id);
             if (user == null)
                 return NotFound();
-
-
 
             return Ok(user);
         }
@@ -49,8 +46,6 @@ namespace Profile_Service.Controllers
         public async Task<ActionResult> InsertUser(UserDTO User)
         {
             var result = await _userService.CreateUser(User);
-
-
 
             // If result, map to event "model" and publish to MQ.
             if (result != null)
@@ -69,15 +64,11 @@ namespace Profile_Service.Controllers
         {
             var updatedUser = await _userService.UpdateUser(User, Id);
 
-
-
             if (updatedUser != null)
             {
                 var message = _mapper.Map<ProfileUpdatedEvent>(updatedUser);
                 await _publish.Publish(message);
             }
-
-
 
             return Ok(updatedUser);
         }

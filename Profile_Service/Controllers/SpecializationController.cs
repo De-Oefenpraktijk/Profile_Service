@@ -12,7 +12,7 @@ using Profile_Service.Services;
 
 namespace Profile_Service.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     [ApiController]
     public class SpecializationController : ControllerBase
     {
@@ -24,8 +24,8 @@ namespace Profile_Service.Controllers
         }
 
         // GET: api/Themes
-        [HttpGet("GetSpecialization")]
-        public async Task<ActionResult<IEnumerable<SpecializationDTO>>> Get()
+        [HttpGet("GetAllSpecializations")]
+        public async Task<ActionResult<IEnumerable<SpecializationDTO>>> GetAll()
         {
             var themes = await _specializationService.GetSpecialization();
             return Ok(themes);
@@ -41,7 +41,7 @@ namespace Profile_Service.Controllers
 
         // DELETE: api/Themes/5
         [HttpDelete("DeleteSpecialization/{id}")]
-        public async Task<IActionResult> Delete(ObjectId id)
+        public async Task<IActionResult> Delete(string id)
         {
             await _specializationService.DeleteSpecialization(id);
             return Ok();

@@ -15,12 +15,12 @@ namespace Profile_Service.Entities
 
             Users = database.GetCollection<User>("Users");
             Education = database.GetCollection<Education>("Education");
-            Themes = database.GetCollection<Themes>("Themes");
+            Specialization = database.GetCollection<Specialization>("Specialization");
 
         }
 
         public IMongoCollection<User> Users { get; }
         public IMongoCollection<Education> Education { get; }
-        public IMongoCollection<Themes> Themes { get; }
+        public IMongoCollection<Specialization> Specialization { get; }
     }
 }

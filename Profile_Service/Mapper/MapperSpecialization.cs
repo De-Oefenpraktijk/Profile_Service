@@ -9,8 +9,7 @@ namespace Profile_Service.Mapper
     {
         public MapperSpecialization()
         {
-            CreateMap<Specialization, SpecializationDTO>().ReverseMap();
-            CreateMap<SpecializationDTO, Specialization>().ReverseMap();
+
         }
 
     }

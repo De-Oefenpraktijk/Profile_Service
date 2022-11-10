@@ -1,12 +1,13 @@
 ﻿using EventBus.Messages.Events;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Bson;
 using Profile_Service.DTO;
 using Profile_Service.Entities;
 using Profile_Service.Services;
 
 namespace Profile_Service.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     [ApiController]
     public class EducationController : ControllerBase
     {
@@ -44,6 +45,7 @@ namespace Profile_Service.Controllers
             return Ok();
         }
 
+        // PUT: api/Education/5
         [HttpPut("UpdateEducation/{Id}")]
         public async Task<ActionResult> UpdateEducation(EducationDTO education, string Id)
         {

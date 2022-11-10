@@ -27,9 +27,10 @@ namespace Profile_Service.Services
             return specialization;
         }
 
-        public async Task<ObjectId> DeleteSpecialization(ObjectId specializationId)
-        {
+        public async Task<string> DeleteSpecialization(string specializationId)
+        {         
             await _context.Specialization.DeleteOneAsync(x => x.Id == specializationId);
+            
             return specializationId;
         }
 
@@ -47,11 +48,11 @@ namespace Profile_Service.Services
             return list;
         }
 
-        public async Task<Specialization> UpdateSpecialization(SpecializationDTO _specialization, ObjectId _specializationId)
-        {
-            var specialization = _mapper.Map<Specialization>(_specialization);
-            await _context.Specialization.ReplaceOneAsync(x => x.Id == _specializationId, specialization);
-            return specialization;
-        }
+        //public async Task<Specialization> UpdateSpecialization(SpecializationDTO _specialization, ObjectId _specializationId)
+        //{
+        //    var specialization = _mapper.Map<Specialization>(_specialization);
+        //    await _context.Specialization.ReplaceOneAsync(x => x.Id == _specializationId, specialization);
+        //    return specialization;
+        //}
     }
 }
