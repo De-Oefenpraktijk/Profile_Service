@@ -47,7 +47,7 @@ namespace Profile_Service.Controllers
                 await _publish.Publish(message);
             }
 
-            return Ok(User);
+            return Ok(result);
         }
 
         [HttpPut("UpdateUser/{Id}")]

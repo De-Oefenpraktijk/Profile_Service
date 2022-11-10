@@ -14,13 +14,13 @@ namespace Profile_Service.Entities
             var database = client.GetDatabase(configuration.GetValue<string>("MongoDb:DatabaseName"));
 
             Users = database.GetCollection<User>("Users");
-            Institutions = database.GetCollection<Institutions>("Institutions");
+            Education = database.GetCollection<Education>("Education");
             Themes = database.GetCollection<Themes>("Themes");
 
         }
 
         public IMongoCollection<User> Users { get; }
-        public IMongoCollection<Institutions> Institutions { get; }
+        public IMongoCollection<Education> Education { get; }
         public IMongoCollection<Themes> Themes { get; }
     }
 }

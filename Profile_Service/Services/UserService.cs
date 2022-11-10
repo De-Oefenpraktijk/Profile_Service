@@ -18,14 +18,15 @@ namespace Profile_Service.Services
             _mapper = mapper;
         }
 
-        public async Task<User> CreateUser(UserDTO _user)
+        public async Task<UserDTO> CreateUser(UserDTO _user)
         {
             var user = _mapper.Map<User>(_user);
             user.UserId = Guid.NewGuid().ToString();
             user.Role = "User";
 
             await _context.Users.InsertOneAsync(user);
-            return user;
+            
+            return _mapper.Map<UserDTO>(user);
         }
 
         public async Task<string> DeleteUser(string userId)
@@ -47,39 +48,11 @@ namespace Profile_Service.Services
 
         public async Task<UserDTO> UpdateUser(UserDTO _user, string _userId)
         {
-            //var user = new User
-            //{
-            //    UserId = _userId,
-            //    Username = _user.Username,
-            //    FirstName = _user.FirstName,
-            //    LastName = _user.LastName,
-            //    EmailAddress = _user.EmailAddress,
-            //    Password = _user.Password,
-            //    EnrollmentDate = _user.EnrollmentDate,
-            //    Role = _user.Role,
-            //    Institutions = _user.Institutions,
-            //    Themes = _user.Themes,
-            //    ResidencePlace = _user.ResidencePlace
-            //};
-
             var user = _mapper.Map<User>(_user);
             user.UserId = _userId;
 
             await _context.Users.ReplaceOneAsync(x => x.UserId == _userId, user);
-            //return new UserDTO()
-            //{
-            //    Username = user.Username,
-            //    FirstName = user.FirstName,
-            //    LastName = user.LastName,
-            //    EmailAddress = user.EmailAddress,
-            //    Password = user.Password,
-            //    EnrollmentDate = user.EnrollmentDate,
-            //    Role = user.Role,
-            //    Institutions = user.Institutions,
-            //    Themes = user.Themes,
-            //    ResidencePlace = user.ResidencePlace
-            //};
-
+            
             return _mapper.Map<UserDTO>(user);
         }
     }
