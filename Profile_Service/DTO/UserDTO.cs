@@ -1,4 +1,7 @@
-﻿namespace Profile_Service.DTO
+﻿using MongoDB.Driver;
+using Profile_Service.Entities;
+
+namespace Profile_Service.DTO
 {
     public class UserDTO
     {
@@ -18,9 +21,9 @@
 
         public string? Role { get; set; }
 
-        public string? Institutions { get; set; }
+        public List<string>? Educations { get; set; }
 
-        public string? Themes { get; set; }
+        public List<string>? Specializations { get; set; }
 
         public string? ResidencePlace { get; set; }
     }

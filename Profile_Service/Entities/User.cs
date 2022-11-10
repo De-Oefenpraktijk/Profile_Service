@@ -1,5 +1,6 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Driver;
 
 namespace Profile_Service.Entities
 {
@@ -23,9 +24,9 @@ namespace Profile_Service.Entities
 
         public string? Role { get; set; }
 
-        public string? Institutions { get; set; }
-
-        public string? Themes { get; set; }
+        public List<string>? Educations { get; set; }
+        
+        public List<string>? Specializations { get; set; }
 
         public string? ResidencePlace { get; set; }
     }

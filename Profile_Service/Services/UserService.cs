@@ -15,15 +15,11 @@ namespace Profile_Service.Services
         private readonly DBContext _context;
         private readonly IMapper _mapper;
 
-
-
         public UserService(DBContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
         }
-
-
 
         public async Task<UserDTO> CreateUser(UserDTO _user)
         {
@@ -35,8 +31,6 @@ namespace Profile_Service.Services
             return _mapper.Map<UserDTO>(user);
         }
 
-
-
         public async Task<string> DeleteUser(string userId)
         {
             var objectId = ObjectId.Parse(userId);
@@ -46,11 +40,11 @@ namespace Profile_Service.Services
             return userId;
         }
 
-
-
         public async Task<UserDTO> GetUserByID(string userId)
         {
             var objectId = ObjectId.Parse(userId);
+            var educationList = new List<string>();
+            var specializationList = new List<string>();
             
             var user = await _context.Users.Find(x => x.Id == userId).FirstOrDefaultAsync();
             if (user == null)
@@ -58,10 +52,23 @@ namespace Profile_Service.Services
                 throw new Exception("User does not exist");
             }
 
+            foreach (var education in user.Educations)
+            {
+                var educationName = await _context.Education.Find(x => x.Id == education).FirstOrDefaultAsync();
+                educationList.Add(educationName.Name);
+            }
+
+            foreach (var specialization in user.Specializations)
+            {
+                var specializationName = await _context.Specialization.Find(x => x.Id == specialization).FirstOrDefaultAsync();
+                specializationList.Add(specializationName.Name);
+            }
+
+            user.Specializations = specializationList;
+            user.Educations = educationList;
+
             return _mapper.Map<UserDTO>(user);
         }
-
-
 
         public async Task<UserDTO> UpdateUser(UserDTO _user, string Id)
         {
