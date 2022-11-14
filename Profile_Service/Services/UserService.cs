@@ -26,7 +26,25 @@ namespace Profile_Service.Services
             var user = _mapper.Map<User>(_user);
             user.Role = "User";
 
+            var educationList = new List<string>();
+            var specializationList = new List<string>();
+
             await _context.Users.InsertOneAsync(user);
+
+            foreach (var education in user.Educations)
+            {
+                var educationName = await _context.Education.Find(x => x.Id == education).FirstOrDefaultAsync();
+                educationList.Add(educationName.Name);
+            }
+
+            foreach (var specialization in user.Specializations)
+            {
+                var specializationName = await _context.Specialization.Find(x => x.Id == specialization).FirstOrDefaultAsync();
+                specializationList.Add(specializationName.Name);
+            }
+
+            user.Specializations = specializationList;
+            user.Educations = educationList;
 
             return _mapper.Map<UserDTO>(user);
         }
@@ -76,7 +94,25 @@ namespace Profile_Service.Services
             var user = _mapper.Map<User>(_user);
             user.Id = Id;
 
+            var educationList = new List<string>();
+            var specializationList = new List<string>();
+
             await _context.Users.ReplaceOneAsync(x => x.Id == Id, user);
+
+            foreach (var education in user.Educations)
+            {
+                var educationName = await _context.Education.Find(x => x.Id == education).FirstOrDefaultAsync();
+                educationList.Add(educationName.Name);
+            }
+
+            foreach (var specialization in user.Specializations)
+            {
+                var specializationName = await _context.Specialization.Find(x => x.Id == specialization).FirstOrDefaultAsync();
+                specializationList.Add(specializationName.Name);
+            }
+
+            user.Specializations = specializationList;
+            user.Educations = educationList;
 
             return _mapper.Map<UserDTO>(user);
         }
