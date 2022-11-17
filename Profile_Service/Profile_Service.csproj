@@ -12,6 +12,7 @@
 	<DockerfileFile>..\Dockerfile</DockerfileFile>
   </PropertyGroup>
 
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'OEF_Profile_service' " />
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
     <PackageReference Include="MassTransit" Version="8.0.8" />
