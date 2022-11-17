@@ -2,121 +2,84 @@
 using System.Net;
 using Profile_Service.Entities;
 using Profile_Service.DTO;
-using Profile_Service.Models;
-using Microsoft.EntityFrameworkCore;
+using Profile_Service.Services;
+using Microsoft.EntityFrameworkCore.Migrations.Operations;
+using MassTransit;
+using AutoMapper;
+using EventBus.Messages.Events;
+using MongoDB.Bson;
 
 namespace Profile_Service.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     public class UserController : ControllerBase
     {
-        private readonly DBContext _DbContext;
+        private readonly UserService _userService;
+        private readonly IMapper _mapper;
+        private readonly IPublishEndpoint _publish;
 
-        public UserController(DBContext DBContext)
+
+
+        public UserController(UserService userService, IMapper mapper, IPublishEndpoint publish)
         {
-            _DbContext = DBContext;
+            _userService = userService;
+            _publish = publish;
+            _mapper = mapper;
         }
 
 
-        [HttpGet("GetUsers")]
-        public async Task<ActionResult<List<UserDTO>>> Get()
-        {
-            var List = await _DbContext.Users.Select(
-                s => new UserDTO
-                {
-                    Id = s.Id,
-                    FirstName = s.FirstName,
-                    LastName = s.LastName,
-                    Username = s.Username,
-                    Password = s.Password,
-                    EnrollmentDate = s.EnrollmentDate
-                }
-            ).ToListAsync();
 
-            if (List.Count < 0)
-            {
+        [HttpGet("GetUserById/{Id}")]
+        public async Task<ActionResult<UserDTO>> GetUserById(string Id)
+        {
+            var user = await _userService.GetUserByID(Id);
+            if (user == null)
                 return NotFound();
-            }
-            else
-            {
-                return List;
-            }
+
+            return Ok(user);
         }
 
-        [HttpGet("GetUserById")]
-        public async Task<ActionResult<UserDTO>> GetUserById(Guid Id)
-        {
-            UserDTO? User = await _DbContext.Users.Select(
-                    s => new UserDTO
-                    {
-                        Id = s.Id,
-                        FirstName = s.FirstName,
-                        LastName = s.LastName,
-                        Username = s.Username,
-                        Password = s.Password,
-                        EnrollmentDate = s.EnrollmentDate
-                    })
-                .FirstOrDefaultAsync(s => s.Id == Id);
 
-            if (User == null)
-            {
-                return NotFound();
-            }
-            else
-            {
-                return User;
-            }
-        }
 
         [HttpPost("InsertUser")]
-        public async Task<HttpStatusCode> InsertUser(UserDTO User)
+        public async Task<ActionResult> InsertUser(UserDTO User)
         {
-            var entity = new User()
+            var result = await _userService.CreateUser(User);
+
+            // If result, map to event "model" and publish to MQ.
+            if (result != null)
             {
-                FirstName = User.FirstName,
-                LastName = User.LastName,
-                Username = User.Username,
-                EmailAddress = User.EmailAddress,
-                Role = User.Role,
-                Password = User.Password
-            };
+                var message = _mapper.Map<ProfileUpdatedEvent>(result);
+                await _publish.Publish(message);
+            }
 
-            _DbContext.Users.Add(entity);
-            await _DbContext.SaveChangesAsync();
-
-            return HttpStatusCode.Created;
+            return Ok(User);
         }
 
-        [HttpPut("UpdateUser")]
-        public async Task<HttpStatusCode> UpdateUser(UserDTO User)
+
+
+        [HttpPut("UpdateUser/{Id}")]
+        public async Task<ActionResult> UpdateUser(UserDTO User, string Id)
         {
-            var entity = await _DbContext.Users.FirstOrDefaultAsync(s => s.Id == User.Id);
+            var updatedUser = await _userService.UpdateUser(User, Id);
 
-            entity.FirstName = User.FirstName;
-            entity.LastName = User.LastName;
-            entity.Username = User.Username;
-            entity.EmailAddress = User.EmailAddress;
-            entity.Password = User.Password;
-            entity.Role = User.Role;
-            entity.EnrollmentDate = User.EnrollmentDate;
+            if (updatedUser != null)
+            {
+                var message = _mapper.Map<ProfileUpdatedEvent>(updatedUser);
+                await _publish.Publish(message);
+            }
 
-            await _DbContext.SaveChangesAsync();
-            return HttpStatusCode.OK;
+            return Ok(updatedUser);
         }
+
+
 
         [HttpDelete("DeleteUser/{Id}")]
-        public async Task<HttpStatusCode> DeleteUser(Guid Id)
+        public async Task<ActionResult> DeleteUser(string Id)
         {
-            var entity = new User()
-            {
-                Id = Id
-            };
-            _DbContext.Users.Attach(entity);
-            _DbContext.Users.Remove(entity);
-            await _DbContext.SaveChangesAsync();
-            return HttpStatusCode.OK;
+            await _userService.DeleteUser(Id);
+            return Ok();
         }
     }
 }
-
