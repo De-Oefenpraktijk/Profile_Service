@@ -1,12 +1,15 @@
-﻿using MongoDB.Driver;
-using Profile_Service.Entities;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Driver;
 
-namespace Profile_Service.DTO
+namespace Profile_Service.Entities
 {
-    public class UserDTO
+    public partial class User
     {
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
         public string? Id { get; set; }
-        
+
         public string? FirstName { get; set; }
 
         public string? LastName { get; set; }
@@ -22,7 +25,7 @@ namespace Profile_Service.DTO
         public string? Role { get; set; }
 
         public List<string>? Educations { get; set; }
-
+        
         public List<string>? Specializations { get; set; }
 
         public string? ResidencePlace { get; set; }

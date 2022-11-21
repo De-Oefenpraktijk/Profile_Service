@@ -1,17 +1,13 @@
-﻿using MongoDB.Driver;
-using Profile_Service.Entities;
-
-namespace Profile_Service.DTO
+﻿namespace EventBus.Messages.Events
 {
-    public class UserDTO
+    public class ProfileUpdatedEvent: IntegrationBaseEvent
     {
-        public string? Id { get; set; }
-        
         public string? FirstName { get; set; }
 
         public string? LastName { get; set; }
 
-        public string? Username { get; set; }
+        // used as unique identifier
+        public string Username { get; set; } = null!;
 
         public string? EmailAddress { get; set; }
 
