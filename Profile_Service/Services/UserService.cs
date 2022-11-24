@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using EventBus.Messages.Events;
+using MassTransit;
 using Microsoft.CodeAnalysis;
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -14,11 +15,13 @@ namespace Profile_Service.Services
     {
         private readonly DBContext _context;
         private readonly IMapper _mapper;
+        private readonly IPublishEndpoint _publish;
 
-        public UserService(DBContext context, IMapper mapper)
+        public UserService(DBContext context, IMapper mapper, IPublishEndpoint publish)
         {
             _context = context;
             _mapper = mapper;
+            _publish = publish;
         }
 
         public async Task<UserDTO> CreateUser(UserDTO _user)
@@ -46,7 +49,12 @@ namespace Profile_Service.Services
             user.Specializations = specializationList;
             user.Educations = educationList;
 
-            return _mapper.Map<UserDTO>(user);
+            var result = _mapper.Map<UserDTO>(user);
+
+            var message = _mapper.Map<ProfileUpdatedEvent>(result);
+            await _publish.Publish(message);
+
+            return result;
         }
 
         public async Task<string> DeleteUser(string userId)
@@ -114,7 +122,12 @@ namespace Profile_Service.Services
             user.Specializations = specializationList;
             user.Educations = educationList;
 
-            return _mapper.Map<UserDTO>(user);
+            var result = _mapper.Map<UserDTO>(user);
+
+            var message = _mapper.Map<ProfileUpdatedEvent>(result);
+            await _publish.Publish(message);
+
+            return result;
         }
     }
 }
