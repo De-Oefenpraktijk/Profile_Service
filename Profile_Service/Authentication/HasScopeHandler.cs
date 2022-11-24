@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 
-namespace Profile_Service.Application.Authentication
+namespace Profile_Service.Authentication
 {
     public class HasScopeHandler : AuthorizationHandler<HasScopeRequirement>
     {
