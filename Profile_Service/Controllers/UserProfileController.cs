@@ -8,6 +8,7 @@ using MassTransit;
 using AutoMapper;
 using EventBus.Messages.Events;
 using MongoDB.Bson;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Profile_Service.Controllers
 {
@@ -29,7 +30,7 @@ namespace Profile_Service.Controllers
         }
 
 
-
+        [Authorize]
         [HttpGet("GetUserById/{Id}")]
         public async Task<ActionResult<UserDTO>> GetUserById(string Id)
         {

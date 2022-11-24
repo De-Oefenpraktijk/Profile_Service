@@ -5,10 +5,32 @@ using MongoDB.Bson;
 using Profile_Service.Entities;
 using Profile_Service.Services;
 using MassTransit;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.IdentityModel.Tokens;
+using Profile_Service.Application.Authentication;
+using System.Security.Claims;
 
 BsonSerializer.RegisterSerializer(new GuidSerializer(GuidRepresentation.Standard));
 
 var builder = WebApplication.CreateBuilder(args);
+string domain = $"https://{builder.Configuration["Auth0:Domain"]}/";
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.Authority = domain;
+        options.Audience = builder.Configuration["Auth0:Audience"];
+        // If the access token does not have a `sub` claim, `User.Identity.Name` will be `null`. Map it to a different claim by setting the NameClaimType below.
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            NameClaimType = ClaimTypes.NameIdentifier
+        };
+    });
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("write:honks", policy => policy.Requirements.Add(new HasScopeRequirement("write:honks", domain)));
+});
+builder.Services.AddSingleton<IAuthorizationHandler, HasScopeHandler>();
 
 // Add services to the container.
 builder.Services.Configure<DBContext>(
