@@ -4,7 +4,6 @@ using Profile_Service.Entities;
 using Profile_Service.DTO;
 using Profile_Service.Services;
 using Microsoft.EntityFrameworkCore.Migrations.Operations;
-using MassTransit;
 using AutoMapper;
 using EventBus.Messages.Events;
 using MongoDB.Bson;
@@ -17,14 +16,12 @@ namespace Profile_Service.Controllers
     {
         private readonly UserService _userService;
         private readonly IMapper _mapper;
-        private readonly IPublishEndpoint _publish;
 
 
 
-        public UserController(UserService userService, IMapper mapper, IPublishEndpoint publish)
+        public UserController(UserService userService, IMapper mapper)
         {
             _userService = userService;
-            _publish = publish;
             _mapper = mapper;
         }
 
@@ -47,13 +44,6 @@ namespace Profile_Service.Controllers
         {
             var result = await _userService.CreateUser(User);
 
-            // If result, map to event "model" and publish to MQ.
-            if (result != null)
-            {
-                var message = _mapper.Map<ProfileUpdatedEvent>(result);
-                await _publish.Publish(message);
-            }
-
             return Ok(User);
         }
 
@@ -63,12 +53,6 @@ namespace Profile_Service.Controllers
         public async Task<ActionResult> UpdateUser(UserDTO User, string Id)
         {
             var updatedUser = await _userService.UpdateUser(User, Id);
-
-            if (updatedUser != null)
-            {
-                var message = _mapper.Map<ProfileUpdatedEvent>(updatedUser);
-                await _publish.Publish(message);
-            }
 
             return Ok(updatedUser);
         }
