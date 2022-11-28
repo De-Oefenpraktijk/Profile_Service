@@ -7,9 +7,11 @@ using Microsoft.EntityFrameworkCore.Migrations.Operations;
 using AutoMapper;
 using EventBus.Messages.Events;
 using MongoDB.Bson;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Profile_Service.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/v1/[controller]")]
     public class UserController : ControllerBase

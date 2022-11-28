@@ -1,4 +1,5 @@
 ﻿using EventBus.Messages.Events;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 using Profile_Service.DTO;
@@ -7,6 +8,7 @@ using Profile_Service.Services;
 
 namespace Profile_Service.Controllers
 {
+    [Authorize]
     [Route("api/v1/[controller]")]
     [ApiController]
     public class EducationController : ControllerBase
