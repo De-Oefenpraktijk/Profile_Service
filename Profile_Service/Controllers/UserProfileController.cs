@@ -29,8 +29,6 @@ namespace Profile_Service.Controllers
             _mapper = mapper;
         }
 
-
-        [Authorize]
         [HttpGet("GetUserById/{Id}")]
         public async Task<ActionResult<UserDTO>> GetUserById(string Id)
         {
@@ -40,8 +38,6 @@ namespace Profile_Service.Controllers
 
             return Ok(user);
         }
-
-
 
         [HttpPost("InsertUser")]
         public async Task<ActionResult> InsertUser(UserDTO User)
@@ -58,8 +54,6 @@ namespace Profile_Service.Controllers
             return Ok(User);
         }
 
-
-
         [HttpPut("UpdateUser/{Id}")]
         public async Task<ActionResult> UpdateUser(UserDTO User, string Id)
         {
@@ -73,8 +67,6 @@ namespace Profile_Service.Controllers
 
             return Ok(updatedUser);
         }
-
-
 
         [HttpDelete("DeleteUser/{Id}")]
         public async Task<ActionResult> DeleteUser(string Id)
