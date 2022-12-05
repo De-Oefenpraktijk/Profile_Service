@@ -5,11 +5,19 @@ using MongoDB.Bson;
 using Profile_Service.Entities;
 using Profile_Service.Services;
 using MassTransit;
+<<<<<<< HEAD
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using Profile_Service.Authentication;
+=======
+using Microsoft.AspNetCore.Authorization;
+using Social_Service.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
+>>>>>>> 28eeb0ffe25c1cf23320227976179a9757faa10a
 
 BsonSerializer.RegisterSerializer(new GuidSerializer(GuidRepresentation.Standard));
 
@@ -32,6 +40,25 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("delete:accounts", policy => policy.Requirements.Add(new HasScopeRequirement("delete:accounts", domain)));
 });
 builder.Services.AddSingleton<IAuthorizationHandler, HasScopeHandler>();
+
+string domain = $"https://{builder.Configuration["Auth0:Domain"]}/";
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.Authority = domain;
+        options.Audience = builder.Configuration["Auth0:Audience"];
+        // If the access token does not have a `sub` claim, `User.Identity.Name` will be `null`. Map it to a different claim by setting the NameClaimType below.
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            NameClaimType = ClaimTypes.NameIdentifier
+        };
+    });
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("read:user", policy => policy.Requirements.Add(new HasScopeRequirement("read:user", domain)));
+});
+builder.Services.AddSingleton<IAuthorizationHandler, HasScopeHandler>();
+
 
 // Add services to the container.
 builder.Services.Configure<DBContext>(
@@ -68,8 +95,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+<<<<<<< HEAD
 app.UseHttpsRedirection();
 
+=======
+>>>>>>> 28eeb0ffe25c1cf23320227976179a9757faa10a
 app.UseAuthentication();
 app.UseAuthorization();
 

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 
+namespace Social_Service.Authentication
 {
     public class HasScopeHandler : AuthorizationHandler<HasScopeRequirement>
     {

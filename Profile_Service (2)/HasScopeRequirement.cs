@@ -1,10 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 
-<<<<<<< HEAD
-namespace Profile_Service.Authentication
-=======
 namespace Social_Service.Authentication
->>>>>>> 28eeb0ffe25c1cf23320227976179a9757faa10a
 {
     public class HasScopeRequirement : IAuthorizationRequirement
     {
