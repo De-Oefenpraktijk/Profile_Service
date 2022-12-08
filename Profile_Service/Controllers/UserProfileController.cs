@@ -44,7 +44,7 @@ namespace Profile_Service.Controllers
         [HttpPost("InsertUser")]
         public async Task<ActionResult> InsertUser(UserDTO User)
         {
-            var result = await _userService.CreateUser(User);
+            await _userService.CreateUser(User);
 
             return Ok(User);
         }
