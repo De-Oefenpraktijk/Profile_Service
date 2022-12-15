@@ -78,20 +78,20 @@ namespace Profile_Service.Services
                 throw new Exception("User does not exist");
             }
 
-            //foreach (var education in user.Educations)
-            //{
-            //    var educationName = await _context.Education.Find(x => x.Id == education).FirstOrDefaultAsync();
-            //    educationList.Add(educationName.Name);
-            //}
+            foreach (var education in user.Educations)
+            {
+                var educationName = await _context.Education.Find(x => x.Id == education).FirstOrDefaultAsync();
+                educationList.Add(educationName.Name);
+            }
 
-            //foreach (var specialization in user.Specializations)
-            //{
-            //    var specializationName = await _context.Specialization.Find(x => x.Id == specialization).FirstOrDefaultAsync();
-            //    specializationList.Add(specializationName.Name);
-            //}
+            foreach (var specialization in user.Specializations)
+            {
+                var specializationName = await _context.Specialization.Find(x => x.Id == specialization).FirstOrDefaultAsync();
+                specializationList.Add(specializationName.Name);
+            }
 
-            //user.Specializations = specializationList;
-            //user.Educations = educationList;
+            user.Specializations = specializationList;
+            user.Educations = educationList;
 
             return _mapper.Map<UserDTO>(user);
         }
