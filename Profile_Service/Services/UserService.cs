@@ -34,7 +34,7 @@ namespace Profile_Service.Services
             var result = _mapper.Map<UserDTO>(user);
 
             var message = _mapper.Map<ProfileUpdatedEvent>(result);
-            await _publish.Publish(message);
+            await _publish.Publish(message);// Hier zit de error, of dit is de reden voor het lange wachten
 
             return result;
         }
