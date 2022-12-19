@@ -48,6 +48,17 @@ namespace Profile_Service.Services
             return list;
         }
 
+        public async Task<SpecializationDTO> GetSpecializationByID(string specializationId)
+        {
+            var specialization = await _context.Specialization.Find(x => x.Id == specializationId).FirstOrDefaultAsync();
+            if (specialization == null)
+            {
+                throw new Exception("Specialization does not exist");
+            }
+
+            return _mapper.Map<SpecializationDTO>(specialization);
+        }
+
         //public async Task<Specialization> UpdateSpecialization(SpecializationDTO _specialization, ObjectId _specializationId)
         //{
         //    var specialization = _mapper.Map<Specialization>(_specialization);

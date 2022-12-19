@@ -32,6 +32,17 @@ namespace Profile_Service.Controllers
             return Ok(themes);
         }
 
+        // GET: api/Themes/5
+        [HttpGet("GetSpecialization/{Id}")]
+        public async Task<ActionResult<IEnumerable<EducationDTO>>> GetById(string Id)
+        {
+            var specialization = await _specializationService.GetSpecializationByID(Id);
+            if (specialization == null)
+                return NotFound();
+
+            return Ok(specialization);
+        }
+
         // POST: api/Themes
         [HttpPost("PostSpecialization")]
         public async Task<IActionResult> Post(SpecializationDTO specialization)
