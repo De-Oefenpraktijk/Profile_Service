@@ -12,5 +12,6 @@ namespace Profile_Service.Entities
         public string? Name { get; set; }
 
         public string? Location { get; set; }
+        public string? School { get; set; }
     }
 }
