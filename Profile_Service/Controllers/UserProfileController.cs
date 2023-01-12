@@ -11,7 +11,6 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Profile_Service.Controllers
 {
-    [Authorize]
     [ApiController]
     [Route("api/v1/[controller]")]
     public class UserController : ControllerBase
@@ -44,7 +43,7 @@ namespace Profile_Service.Controllers
         [HttpPost("InsertUser")]
         public async Task<ActionResult> InsertUser(UserDTO User)
         {
-            var result = await _userService.CreateUser(User);
+            await _userService.CreateUser(User);
 
             return Ok(User);
         }

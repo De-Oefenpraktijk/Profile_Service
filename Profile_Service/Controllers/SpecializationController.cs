@@ -13,7 +13,6 @@ using Profile_Service.Services;
 
 namespace Profile_Service.Controllers
 {
-    [Authorize]
     [Route("api/v1/[controller]")]
     [ApiController]
     public class SpecializationController : ControllerBase
@@ -31,6 +30,17 @@ namespace Profile_Service.Controllers
         {
             var themes = await _specializationService.GetSpecialization();
             return Ok(themes);
+        }
+
+        // GET: api/Themes/5
+        [HttpGet("GetSpecialization/{Id}")]
+        public async Task<ActionResult<IEnumerable<EducationDTO>>> GetById(string Id)
+        {
+            var specialization = await _specializationService.GetSpecializationByID(Id);
+            if (specialization == null)
+                return NotFound();
+
+            return Ok(specialization);
         }
 
         // POST: api/Themes
