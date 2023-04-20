@@ -26,6 +26,11 @@ namespace Profile_Service.Entities
         
         public List<string>? Specializations { get; set; }
 
+<<<<<<< HEAD
         public string? Workplace { get; set; }
+=======
+        public string? ResidencePlace { get; set; }
+        public string? Biography { get; set; }
+>>>>>>> OP-82-modify-professional-information
     }
 }

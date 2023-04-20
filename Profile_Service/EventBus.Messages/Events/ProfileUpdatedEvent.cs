@@ -23,5 +23,6 @@
         public List<string>? Specializations { get; set; }
 
         public string? ResidencePlace { get; set; }
+        public string? Biography { get; set; }
     }
 }
