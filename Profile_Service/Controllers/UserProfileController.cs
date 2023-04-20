@@ -29,9 +29,9 @@ namespace Profile_Service.Controllers
 
 
         [HttpGet("GetUserById/{Id}")]
-        public async Task<ActionResult<UserDTO>> GetUserById(string Id)
+        public async Task<ActionResult<OutputUserDTO>> GetUserById(string Id)
         {
-            var user = await _userService.GetUserByID(Id);
+            OutputUserDTO user = await _userService.GetUserByID(Id);
             if (user == null)
                 return NotFound();
 
@@ -41,20 +41,18 @@ namespace Profile_Service.Controllers
 
 
         [HttpPost("InsertUser")]
-        public async Task<ActionResult> InsertUser(UserDTO User)
+        public async Task<ActionResult> InsertUser(InputUserDTO User)
         {
-            await _userService.CreateUser(User);
-
-            return Ok(User);
+            OutputUserDTO newUser = await _userService.CreateUser(User);
+            return Ok(newUser);
         }
 
 
 
         [HttpPut("UpdateUser/{Id}")]
-        public async Task<ActionResult> UpdateUser(UserDTO User, string Id)
+        public async Task<ActionResult> UpdateUser(InputUserDTO User, string Id)
         {
-            var updatedUser = await _userService.UpdateUser(User, Id);
-
+            OutputUserDTO updatedUser = await _userService.UpdateUser(User, Id);
             return Ok(updatedUser);
         }
 
