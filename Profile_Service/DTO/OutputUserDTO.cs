@@ -22,12 +22,7 @@ namespace Profile_Service.DTO
         public List<string>? Educations { get; set; }
 
         public List<string>? Specializations { get; set; }
-
-<<<<<<< HEAD:Profile_Service/DTO/OutputUserDTO.cs
         public string? Workplace { get; set; }
-=======
-        public string? ResidencePlace { get; set; }
         public string? Biography { get; set; }
->>>>>>> OP-82-modify-professional-information:Profile_Service/DTO/UserDTO.cs
     }
 }
