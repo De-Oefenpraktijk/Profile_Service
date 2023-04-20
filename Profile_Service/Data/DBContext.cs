@@ -16,11 +16,13 @@ namespace Profile_Service.Entities
             Users = database.GetCollection<User>("Users");
             Education = database.GetCollection<Education>("Education");
             Specialization = database.GetCollection<Specialization>("Specialization");
+            Function = database.GetCollection<Function>("Function");
 
         }
 
         public IMongoCollection<User> Users { get; }
         public IMongoCollection<Education> Education { get; }
         public IMongoCollection<Specialization> Specialization { get; }
+        public IMongoCollection<Function> Function { get; }
     }
 }

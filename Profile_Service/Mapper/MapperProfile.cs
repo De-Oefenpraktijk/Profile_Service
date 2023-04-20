@@ -16,6 +16,9 @@ namespace Profile_Service.Mapper
             CreateMap<Education, EducationDTO>().ReverseMap();
 
             CreateMap<Specialization, SpecializationDTO>().ReverseMap();
+
+            CreateMap<Function, AddFunctionDTO>().ReverseMap();
+            CreateMap<Function, FunctionDTO>().ReverseMap();
             //CreateMap<SpecializationDTO, Specialization>().ReverseMap();
         }
     }
