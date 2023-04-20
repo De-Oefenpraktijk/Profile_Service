@@ -24,16 +24,16 @@ namespace Profile_Service.Services
             _publish = publish;
         }
 
-        public async Task<UserDTO> CreateUser(UserDTO _user)
+        public async Task<OutputUserDTO> CreateUser(InputUserDTO _user)
         {
-            var user = _mapper.Map<User>(_user);
+            User user = _mapper.Map<InputUserDTO, User>(_user);
             user.Role = "User";
 
             await _context.Users.InsertOneAsync(user);
 
-            var result = _mapper.Map<UserDTO>(user);
+            OutputUserDTO result = _mapper.Map<User, OutputUserDTO>(user);
 
-            var message = _mapper.Map<ProfileUpdatedEvent>(result);
+            ProfileUpdatedEvent message = _mapper.Map<OutputUserDTO, ProfileUpdatedEvent>(result);
             await _publish.Publish(message);// Hier zit de error, of dit is de reden voor het lange wachten
 
             return result;
@@ -41,37 +41,37 @@ namespace Profile_Service.Services
 
         public async Task<string> DeleteUser(string userId)
         {
-            var objectId = ObjectId.Parse(userId);
+            ObjectId objectId = ObjectId.Parse(userId);
             
             await _context.Users.DeleteOneAsync(x => x.Id == userId);
             
             return userId;
         }
 
-        public async Task<UserDTO> GetUserByID(string userId)
+        public async Task<OutputUserDTO> GetUserByID(string userId)
         {
-            var objectId = ObjectId.Parse(userId);
+            ObjectId objectId = ObjectId.Parse(userId);
             
-            var user = await _context.Users.Find(x => x.Id == userId).FirstOrDefaultAsync();
+            User user = await _context.Users.Find(x => x.Id == userId).FirstOrDefaultAsync();
             if (user == null)
             {
                 throw new Exception("User does not exist");
             }
 
-            return _mapper.Map<UserDTO>(user);
+            return _mapper.Map<User, OutputUserDTO>(user);
         }
 
-        public async Task<UserDTO> UpdateUser(UserDTO _user, string Id)
+        public async Task<OutputUserDTO> UpdateUser(InputUserDTO _user, string Id)
         {
-            var objectId = ObjectId.Parse(Id);
-            var user = _mapper.Map<User>(_user);
+            ObjectId objectId = ObjectId.Parse(Id);
+            User user = _mapper.Map<InputUserDTO, User>(_user);
             user.Id = Id;
 
             await _context.Users.ReplaceOneAsync(x => x.Id == Id, user);
 
-            var result = _mapper.Map<UserDTO>(user);
+            OutputUserDTO result = _mapper.Map<User, OutputUserDTO>(user);
 
-            var message = _mapper.Map<ProfileUpdatedEvent>(result);
+            ProfileUpdatedEvent message = _mapper.Map<OutputUserDTO, ProfileUpdatedEvent>(result);
             await _publish.Publish(message);
 
             return result;

@@ -10,9 +10,10 @@ namespace Profile_Service.Mapper
         public MapperProfile()
         {
             CreateMap<User, ProfileUpdatedEvent>().ReverseMap();
-            CreateMap<UserDTO, ProfileUpdatedEvent>().ReverseMap();
-            CreateMap<User, UserDTO>().ReverseMap();
-            
+            CreateMap<OutputUserDTO, ProfileUpdatedEvent>().ReverseMap();
+            CreateMap<User, OutputUserDTO>().ReverseMap();
+            CreateMap<User, InputUserDTO>().ReverseMap();
+
             CreateMap<Education, EducationDTO>().ReverseMap();
 
             CreateMap<Specialization, SpecializationDTO>().ReverseMap();
