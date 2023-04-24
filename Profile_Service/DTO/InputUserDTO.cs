@@ -25,5 +25,6 @@ namespace Profile_Service.DTO
 
         public string? Workplace { get; set; }
         public string? Function { get; set; }
+        public List<string>? Hobbies { get; set; }
     }
 }
