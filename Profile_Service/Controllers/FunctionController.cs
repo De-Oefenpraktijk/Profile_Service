@@ -29,7 +29,7 @@ namespace Profile_Service.Controllers
             return Ok(newFunction);
         }
 
-        [HttpPost("DeleteFunction")]
+        [HttpDelete("DeleteFunction")]
         public async Task<IActionResult> DeleteFunction(string id)
         {
             var result = await _functionService.DeleteFunction(id);
