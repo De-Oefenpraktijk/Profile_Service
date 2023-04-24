@@ -35,5 +35,15 @@ namespace Profile_Service.Services
             await _context.Function.InsertOneAsync(function);
             return function;
         }
+
+        public async Task<string> DeleteFunction(string id)
+        {
+            var result = await _context.Function.DeleteOneAsync(x => x.Id == id);
+            if (result.DeletedCount >= 1)
+            {
+                return id;
+            }
+            return null;
+        }
     }
 }

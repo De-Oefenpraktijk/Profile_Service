@@ -28,5 +28,16 @@ namespace Profile_Service.Controllers
             await _functionService.AddFunction(function);
             return Ok();
         }
+
+        [HttpPost("DeleteFunction")]
+        public async Task<IActionResult> DeleteFunction(string id)
+        {
+            var result = await _functionService.DeleteFunction(id);
+            if (result == null)
+            {
+                return NotFound();
+            }
+            return Ok();
+        }
     }
 }
