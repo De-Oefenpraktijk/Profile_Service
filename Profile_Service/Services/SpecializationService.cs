@@ -19,12 +19,13 @@ namespace Profile_Service.Services
             _mapper = mapper;
         }
 
-        public async Task<Specialization> AddSpecialization(SpecializationDTO _specialization)
+        public async Task<SpecializationDTO> AddSpecialization(SpecializationDTO _specialization)
         {
             var specialization = _mapper.Map<Specialization>(_specialization);
 
             await _context.Specialization.InsertOneAsync(specialization);
-            return specialization;
+            SpecializationDTO result = _mapper.Map<SpecializationDTO>(specialization);
+            return result;
         }
 
         public async Task<string> DeleteSpecialization(string specializationId)
