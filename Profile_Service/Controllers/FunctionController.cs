@@ -25,8 +25,8 @@ namespace Profile_Service.Controllers
         [HttpPost("AddFunction")]
         public async Task<IActionResult> AddFunction(AddFunctionDTO function)
         {
-            await _functionService.AddFunction(function);
-            return Ok();
+            FunctionDTO newFunction = await _functionService.AddFunction(function);
+            return Ok(newFunction);
         }
 
         [HttpPost("DeleteFunction")]
