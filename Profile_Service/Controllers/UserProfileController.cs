@@ -38,6 +38,15 @@ namespace Profile_Service.Controllers
             return Ok(user);
         }
 
+        [HttpGet("GetUserByEmail/{Email}")]
+        public async Task<ActionResult<OutputUserDTO>> GetUserByEmail(string Email)
+        {
+            OutputUserDTO user = await _userService.GetUserByEmail(Email);
+            if (user == null)
+                return NotFound();
+
+            return Ok(user);
+        }
 
 
         [HttpPost("InsertUser")]

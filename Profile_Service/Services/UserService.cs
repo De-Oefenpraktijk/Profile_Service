@@ -61,6 +61,17 @@ namespace Profile_Service.Services
             return _mapper.Map<User, OutputUserDTO>(user);
         }
 
+        public async Task<OutputUserDTO> GetUserByEmail(string email)
+        {
+            User user = await _context.Users.Find(x => x.Email == email).FirstOrDefaultAsync();
+            if (user == null)
+            {
+                throw new Exception("User does not exist");
+            }
+
+            return _mapper.Map<User, OutputUserDTO>(user);
+        }
+
         public async Task<OutputUserDTO> UpdateUser(InputUserDTO _user, string Id)
         {
             ObjectId objectId = ObjectId.Parse(Id);
