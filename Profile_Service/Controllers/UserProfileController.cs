@@ -38,6 +38,15 @@ namespace Profile_Service.Controllers
             return Ok(user);
         }
 
+        [HttpGet("GetUserByEmail/{Email}")]
+        public async Task<ActionResult<OutputUserDTO>> GetUserByEmail(string Email)
+        {
+            OutputUserDTO user = await _userService.GetUserByEmail(Email);
+            if (user == null)
+                return NotFound();
+
+            return Ok(user);
+        }
 
 
         [HttpPost("InsertUser")]
@@ -50,13 +59,18 @@ namespace Profile_Service.Controllers
 
 
         [HttpPut("UpdateUser/{Id}")]
-        public async Task<ActionResult> UpdateUser(InputUserDTO User, string Id)
+        public async Task<ActionResult> UpdateUser(InputUpdateUserDTO User, string Id)
         {
             OutputUserDTO updatedUser = await _userService.UpdateUser(User, Id);
             return Ok(updatedUser);
         }
 
-
+        [HttpPut("UpdateUserByEmail/{Email}")]
+        public async Task<ActionResult> UpdateUserByEmail(InputUpdateUserDTO User, string Email)
+        {
+            OutputUserDTO updatedUser = await _userService.UpdateUserByEmail(User, Email);
+            return Ok(updatedUser);
+        }
 
         [HttpDelete("DeleteUser/{Id}")]
         public async Task<ActionResult> DeleteUser(string Id)
