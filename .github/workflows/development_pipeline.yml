@@ -70,9 +70,6 @@ jobs:
       with:
         dotnet-version: 6.0.x
 
-    - name: Setup MSBuild.exe
-      uses: actions/setup-dotnet
-
     # Execute all unit tests in the solution
     - name: Execute unit tests
       run: dotnet test
