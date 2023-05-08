@@ -35,9 +35,9 @@ jobs:
       with:
         dotnet-version: 6.0.x
     
-    - name: Build project
-      run: dotnet build ${{ github.workspace }}/Profile_Service.XUnit/Profile_Service.XUnit.csproj
+    # - name: Build project
+    #   run: dotnet build ${{ github.workspace }}/Profile_Service.XUnit/Profile_Service.XUnit.csproj
 
     # Execute all unit tests in the solution
     - name: Execute unit tests
-      run: dotnet test
+      run: dotnet test ${{ github.workspace }}/Profile_Service.XUnit/Profile_Service.XUnit.csproj
