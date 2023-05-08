@@ -72,11 +72,15 @@ namespace Profile_Service.Services
             return _mapper.Map<User, OutputUserDTO>(user);
         }
 
-        public async Task<OutputUserDTO> UpdateUser(InputUserDTO _user, string Id)
+        public async Task<OutputUserDTO> UpdateUser(InputUpdateUserDTO _user, string Id)
         {
             ObjectId objectId = ObjectId.Parse(Id);
-            User user = _mapper.Map<InputUserDTO, User>(_user);
-            user.Id = Id;
+            User existingUser = await _context.Users.Find(x => x.Id == Id).FirstOrDefaultAsync();
+            if (existingUser == null)
+            {
+                throw new Exception("User does not exist");
+            }
+            User user = _mapper.Map(_user, existingUser);
 
             await _context.Users.ReplaceOneAsync(x => x.Id == Id, user);
 

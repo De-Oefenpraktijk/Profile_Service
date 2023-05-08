@@ -3,15 +3,11 @@ using Profile_Service.Entities;
 
 namespace Profile_Service.DTO
 {
-    public class InputUserDTO
+    public class InputUpdateUserDTO
     {
         public string? FirstName { get; set; }
 
         public string? LastName { get; set; }
-
-        public string? Username { get; set; }
-
-        public string? Email { get; set; }
 
         public List<string>? Educations { get; set; }
 

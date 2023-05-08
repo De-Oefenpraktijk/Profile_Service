@@ -59,7 +59,7 @@ namespace Profile_Service.Controllers
 
 
         [HttpPut("UpdateUser/{Id}")]
-        public async Task<ActionResult> UpdateUser(InputUserDTO User, string Id)
+        public async Task<ActionResult> UpdateUser(InputUpdateUserDTO User, string Id)
         {
             OutputUserDTO updatedUser = await _userService.UpdateUser(User, Id);
             return Ok(updatedUser);
