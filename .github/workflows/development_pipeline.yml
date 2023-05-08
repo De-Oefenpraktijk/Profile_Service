@@ -54,5 +54,5 @@ jobs:
         with:
           projectBaseDir: ${{ github.workspace }}/Profile_Service/
           args:
-            -Dsonar.projectKey=De-Oefenpraktijk_Frontend
+            -Dsonar.projectKey=De-Oefenpraktijk_Profile_Service
             -Dsonar.organization=de-oefenpraktijk
