@@ -54,6 +54,7 @@ builder.Services.AddScoped<DBContext>();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<EducationService>();
 builder.Services.AddScoped<SpecializationService>();
+builder.Services.AddScoped<FunctionService>();
 
 builder.Services.AddControllers();
 

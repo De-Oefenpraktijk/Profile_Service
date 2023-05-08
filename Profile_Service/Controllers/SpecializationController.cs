@@ -47,8 +47,8 @@ namespace Profile_Service.Controllers
         [HttpPost("PostSpecialization")]
         public async Task<IActionResult> Post(SpecializationDTO specialization)
         {
-            await _specializationService.AddSpecialization(specialization);
-            return Ok();
+            SpecializationDTO result = await _specializationService.AddSpecialization(specialization);
+            return Ok(result);
         }
 
         // DELETE: api/Themes/5
