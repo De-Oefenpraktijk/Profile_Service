@@ -65,7 +65,12 @@ namespace Profile_Service.Controllers
             return Ok(updatedUser);
         }
 
-
+        [HttpPut("UpdateUserByEmail/{Email}")]
+        public async Task<ActionResult> UpdateUserByEmail(InputUpdateUserDTO User, string Email)
+        {
+            OutputUserDTO updatedUser = await _userService.UpdateUserByEmail(User, Email);
+            return Ok(updatedUser);
+        }
 
         [HttpDelete("DeleteUser/{Id}")]
         public async Task<ActionResult> DeleteUser(string Id)

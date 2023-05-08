@@ -28,6 +28,7 @@ namespace Profile_Service.Services
         {
             User user = _mapper.Map<InputUserDTO, User>(_user);
             user.Role = "User";
+            user.CreatedAt = DateTime.UtcNow;
 
             await _context.Users.InsertOneAsync(user);
 
@@ -83,6 +84,25 @@ namespace Profile_Service.Services
             User user = _mapper.Map(_user, existingUser);
 
             await _context.Users.ReplaceOneAsync(x => x.Id == Id, user);
+
+            OutputUserDTO result = _mapper.Map<User, OutputUserDTO>(user);
+
+            ProfileUpdatedEvent message = _mapper.Map<OutputUserDTO, ProfileUpdatedEvent>(result);
+            await _publish.Publish(message);
+
+            return result;
+        }
+
+        public async Task<OutputUserDTO> UpdateUserByEmail(InputUpdateUserDTO _user, string Email)
+        {
+            User existingUser = await _context.Users.Find(x => x.Email == Email).FirstOrDefaultAsync();
+            if (existingUser == null)
+            {
+                throw new Exception("User does not exist");
+            }
+            User user = _mapper.Map(_user, existingUser);
+
+            await _context.Users.ReplaceOneAsync(x => x.Email == Email, user);
 
             OutputUserDTO result = _mapper.Map<User, OutputUserDTO>(user);
 
