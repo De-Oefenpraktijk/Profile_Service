@@ -48,10 +48,6 @@ jobs:
 
   build:
 
-    strategy:
-      matrix:
-        configuration: [Debug, Release]
-
     runs-on: ubuntu-latest
 
     env:
@@ -69,6 +65,9 @@ jobs:
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 6.0.x
+    
+    - name: Build project
+      run: dotnet build MySolution.sln
 
     # Execute all unit tests in the solution
     - name: Execute unit tests
