@@ -3,7 +3,7 @@ using Profile_Service.Entities;
 
 namespace Profile_Service.DTO
 {
-    public class UserDTO
+    public class OutputUserDTO
     {
         public string? Id { get; set; }
         
@@ -13,18 +13,18 @@ namespace Profile_Service.DTO
 
         public string? Username { get; set; }
 
-        public string? EmailAddress { get; set; }
+        public string? Email { get; set; }
 
-        public string? Password { get; set; }
-
-        public DateTime EnrollmentDate { get; set; }
+        public DateTime CreatedAt { get; set; }
 
         public string? Role { get; set; }
 
         public List<string>? Educations { get; set; }
 
         public List<string>? Specializations { get; set; }
-
-        public string? ResidencePlace { get; set; }
+        public string? Workplace { get; set; }
+        public string? Biography { get; set; }
+        public string? Function { get; set; }
+        public List<string>? Hobbies { get; set; }
     }
 }
