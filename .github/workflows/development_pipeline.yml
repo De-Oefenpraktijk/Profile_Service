@@ -23,7 +23,7 @@ jobs:
     - name: Build project
       run: dotnet build Profile_Service.sln
 
-  unit test:
+  unit_test:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
