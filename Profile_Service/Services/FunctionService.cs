@@ -29,11 +29,23 @@ namespace Profile_Service.Services
             return list;
         }
 
-        public async Task<Function> AddFunction(AddFunctionDTO functionDTO)
+        public async Task<FunctionDTO> AddFunction(AddFunctionDTO functionDTO)
         {
             var function = _mapper.Map<Function>(functionDTO);
             await _context.Function.InsertOneAsync(function);
-            return function;
+
+            FunctionDTO result = _mapper.Map<FunctionDTO>(function);
+            return result;
+        }
+
+        public async Task<string> DeleteFunction(string id)
+        {
+            var result = await _context.Function.DeleteOneAsync(x => x.Id == id);
+            if (result.DeletedCount >= 1)
+            {
+                return id;
+            }
+            return null;
         }
     }
 }
