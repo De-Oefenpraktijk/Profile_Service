@@ -13,6 +13,7 @@ namespace Profile_Service.Mapper
             CreateMap<OutputUserDTO, ProfileUpdatedEvent>().ReverseMap();
             CreateMap<User, OutputUserDTO>().ReverseMap();
             CreateMap<User, InputUserDTO>().ReverseMap();
+            CreateMap<User, InputUpdateUserDTO>().ReverseMap();
 
             CreateMap<Education, EducationDTO>().ReverseMap();
 
