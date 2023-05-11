@@ -56,3 +56,4 @@ jobs:
           args:
             -Dsonar.projectKey=De-Oefenpraktijk_Profile_Service
             -Dsonar.organization=de-oefenpraktijk
+            -Dsonar.language=csharp
