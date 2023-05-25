@@ -111,5 +111,19 @@ namespace Profile_Service.Services
 
             return result;
         }
+
+        public async Task<bool> UpdateActivityStatus(string id)
+        {
+            User existingUser = await _context.Users.Find(x => x.Id == id).FirstOrDefaultAsync();
+            if (existingUser == null)
+            {
+                throw new Exception("User does not exist");
+            }
+            existingUser.LastOnline = DateTime.UtcNow;
+
+            await _context.Users.ReplaceOneAsync(x => x.Id == id, existingUser);
+
+            return true;
+        }
     }
 }

@@ -65,6 +65,13 @@ namespace Profile_Service.Controllers
             return Ok(updatedUser);
         }
 
+        [HttpPut("UpdateActivityStatus/{Id}")]
+        public async Task<ActionResult> UpdateActivityStatus(string Id)
+        {
+            bool updatedUser = await _userService.UpdateActivityStatus(Id);
+            return Ok(updatedUser);
+        }
+
         [HttpPut("UpdateUserByEmail/{Email}")]
         public async Task<ActionResult> UpdateUserByEmail(InputUpdateUserDTO User, string Email)
         {

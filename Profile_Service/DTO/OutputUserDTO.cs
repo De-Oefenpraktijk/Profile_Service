@@ -26,5 +26,6 @@ namespace Profile_Service.DTO
         public string? Biography { get; set; }
         public string? Function { get; set; }
         public List<string>? Hobbies { get; set; }
+        public DateTime? LastOnline { get; set; }
     }
 }
