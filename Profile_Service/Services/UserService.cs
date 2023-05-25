@@ -73,6 +73,20 @@ namespace Profile_Service.Services
             return _mapper.Map<User, OutputUserDTO>(user);
         }
 
+        public async Task<List<UserActivityStatusDTO>> GetAllActivityStatuses()
+        {
+            List<User> users = await _context.Users.Find(_ => true).ToListAsync();
+
+            List<UserActivityStatusDTO> activityStatusDTOs= new List<UserActivityStatusDTO>();
+            foreach (User user in users)
+            {
+                var activityStatusDTO = _mapper.Map<UserActivityStatusDTO>(user);
+                activityStatusDTOs.Add(activityStatusDTO);
+            }
+
+            return activityStatusDTOs;
+        }
+
         public async Task<OutputUserDTO> UpdateUser(InputUpdateUserDTO _user, string Id)
         {
             ObjectId objectId = ObjectId.Parse(Id);

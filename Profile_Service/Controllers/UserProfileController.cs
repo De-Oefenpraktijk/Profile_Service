@@ -48,6 +48,14 @@ namespace Profile_Service.Controllers
             return Ok(user);
         }
 
+        [HttpGet("GetEveryonesActivityStatus")]
+        public async Task<ActionResult<List<UserActivityStatusDTO>>> GetEveryonesActivityStatus()
+        {
+           List<UserActivityStatusDTO> userActivityStatusDTOs = await _userService.GetAllActivityStatuses();
+
+            return Ok(userActivityStatusDTOs);
+        }
+
 
         [HttpPost("InsertUser")]
         public async Task<ActionResult> InsertUser(InputUserDTO User)
