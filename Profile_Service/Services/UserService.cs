@@ -129,16 +129,16 @@ namespace Profile_Service.Services
             return result;
         }
 
-        public async Task<bool> UpdateActivityStatus(string id)
+        public async Task<bool> UpdateActivityStatus(string email)
         {
-            User existingUser = await _context.Users.Find(x => x.Id == id).FirstOrDefaultAsync();
+            User existingUser = await _context.Users.Find(x => x.Email == email).FirstOrDefaultAsync();
             if (existingUser == null)
             {
                 throw new Exception("User does not exist");
             }
             existingUser.LastOnline = DateTime.UtcNow;
 
-            await _context.Users.ReplaceOneAsync(x => x.Id == id, existingUser);
+            await _context.Users.ReplaceOneAsync(x => x.Email == email, existingUser);
 
             return true;
         }
