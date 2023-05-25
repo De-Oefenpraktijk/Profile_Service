@@ -73,6 +73,23 @@ namespace Profile_Service.Services
             return _mapper.Map<User, OutputUserDTO>(user);
         }
 
+        public async Task<List<UserActivityStatusDTO>> GetAllActivityStatuses()
+        {
+            List<User> users = await _context.Users.Find(_ => true).ToListAsync();
+
+            List<UserActivityStatusDTO> activityStatusDTOs= new List<UserActivityStatusDTO>();
+            foreach (User user in users)
+            {
+                var activityStatusDTO = new UserActivityStatusDTO();
+                activityStatusDTO.Username = user.Username;
+                TimeSpan timeDifference = (TimeSpan)(DateTime.UtcNow - user.LastOnline);
+                activityStatusDTO.IsOnline = timeDifference.TotalSeconds < 60;
+                activityStatusDTOs.Add(activityStatusDTO);
+            }
+
+            return activityStatusDTOs;
+        }
+
         public async Task<OutputUserDTO> UpdateUser(InputUpdateUserDTO _user, string Id)
         {
             ObjectId objectId = ObjectId.Parse(Id);
@@ -110,6 +127,20 @@ namespace Profile_Service.Services
             await _publish.Publish(message);
 
             return result;
+        }
+
+        public async Task<bool> UpdateActivityStatus(string id)
+        {
+            User existingUser = await _context.Users.Find(x => x.Id == id).FirstOrDefaultAsync();
+            if (existingUser == null)
+            {
+                throw new Exception("User does not exist");
+            }
+            existingUser.LastOnline = DateTime.UtcNow;
+
+            await _context.Users.ReplaceOneAsync(x => x.Id == id, existingUser);
+
+            return true;
         }
     }
 }

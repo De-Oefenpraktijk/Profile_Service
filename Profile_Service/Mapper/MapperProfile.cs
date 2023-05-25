@@ -21,6 +21,7 @@ namespace Profile_Service.Mapper
 
             CreateMap<Function, AddFunctionDTO>().ReverseMap();
             CreateMap<Function, FunctionDTO>().ReverseMap();
+            CreateMap<User, UserActivityStatusDTO>().ReverseMap();
             //CreateMap<SpecializationDTO, Specialization>().ReverseMap();
         }
     }
