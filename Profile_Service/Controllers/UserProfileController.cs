@@ -39,6 +39,7 @@ namespace Profile_Service.Controllers
         }
 
         [HttpGet("GetUserByEmail/{Email}")]
+        [Authorize()]
         public async Task<ActionResult<OutputUserDTO>> GetUserByEmail(string Email)
         {
             OutputUserDTO user = await _userService.GetUserByEmail(Email);
