@@ -80,7 +80,10 @@ namespace Profile_Service.Services
             List<UserActivityStatusDTO> activityStatusDTOs= new List<UserActivityStatusDTO>();
             foreach (User user in users)
             {
-                var activityStatusDTO = _mapper.Map<UserActivityStatusDTO>(user);
+                var activityStatusDTO = new UserActivityStatusDTO();
+                activityStatusDTO.Username = user.Username;
+                TimeSpan timeDifference = (TimeSpan)(DateTime.UtcNow - user.LastOnline);
+                activityStatusDTO.IsOnline = timeDifference.TotalSeconds < 60;
                 activityStatusDTOs.Add(activityStatusDTO);
             }
 

@@ -3,7 +3,7 @@
     public class UserActivityStatusDTO
     {
         public string? Username { get; set; }
-        public DateTime? LastOnline { get; set; }
+        public bool IsOnline { get; set; }
 
     }
 }
