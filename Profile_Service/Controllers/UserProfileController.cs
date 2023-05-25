@@ -48,6 +48,14 @@ namespace Profile_Service.Controllers
             return Ok(user);
         }
 
+        [HttpGet("GetEveryonesActivityStatus")]
+        public async Task<ActionResult<List<UserActivityStatusDTO>>> GetEveryonesActivityStatus()
+        {
+           List<UserActivityStatusDTO> userActivityStatusDTOs = await _userService.GetAllActivityStatuses();
+
+            return Ok(userActivityStatusDTOs);
+        }
+
 
         [HttpPost("InsertUser")]
         public async Task<ActionResult> InsertUser(InputUserDTO User)
@@ -62,6 +70,13 @@ namespace Profile_Service.Controllers
         public async Task<ActionResult> UpdateUser(InputUpdateUserDTO User, string Id)
         {
             OutputUserDTO updatedUser = await _userService.UpdateUser(User, Id);
+            return Ok(updatedUser);
+        }
+
+        [HttpPut("UpdateActivityStatus/{Id}")]
+        public async Task<ActionResult> UpdateActivityStatus(string Id)
+        {
+            bool updatedUser = await _userService.UpdateActivityStatus(Id);
             return Ok(updatedUser);
         }
 
