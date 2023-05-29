@@ -41,7 +41,11 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 builder.Services.AddAuthorization(options =>
 {
-    // options.AddPolicy("read:user", policy => policy.Requirements.Add(new HasScopeRequirement("read:user", domain)));
+    options.AddPolicy("manage:profile", policy => policy.Requirements.Add(new HasScopeRequirement("manage:profile", domain)));
+    options.AddPolicy("create:user", policy => policy.Requirements.Add(new HasScopeRequirement("create:user", domain)));
+    options.AddPolicy("manage:functions", policy => policy.Requirements.Add(new HasScopeRequirement("manage:functions", domain)));
+    options.AddPolicy("manage:educations", policy => policy.Requirements.Add(new HasScopeRequirement("manage:educations", domain)));
+    options.AddPolicy("manage:specializations", policy => policy.Requirements.Add(new HasScopeRequirement("manage:specializations", domain)));
 });
 builder.Services.AddSingleton<IAuthorizationHandler, HasScopeHandler>();
 

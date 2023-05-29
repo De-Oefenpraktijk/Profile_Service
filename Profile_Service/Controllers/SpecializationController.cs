@@ -26,6 +26,7 @@ namespace Profile_Service.Controllers
 
         // GET: api/Themes
         [HttpGet("GetAllSpecializations")]
+        [Authorize()]
         public async Task<ActionResult<IEnumerable<SpecializationDTO>>> GetAll()
         {
             var themes = await _specializationService.GetSpecialization();
@@ -34,6 +35,7 @@ namespace Profile_Service.Controllers
 
         // GET: api/Themes/5
         [HttpGet("GetSpecialization/{Id}")]
+        [Authorize()]
         public async Task<ActionResult<IEnumerable<EducationDTO>>> GetById(string Id)
         {
             var specialization = await _specializationService.GetSpecializationByID(Id);
@@ -45,6 +47,7 @@ namespace Profile_Service.Controllers
 
         // POST: api/Themes
         [HttpPost("PostSpecialization")]
+        [Authorize("manage:specializations")]
         public async Task<IActionResult> Post(SpecializationDTO specialization)
         {
             SpecializationDTO result = await _specializationService.AddSpecialization(specialization);
@@ -53,6 +56,7 @@ namespace Profile_Service.Controllers
 
         // DELETE: api/Themes/5
         [HttpDelete("DeleteSpecialization/{id}")]
+        [Authorize("manage:specializations")]
         public async Task<IActionResult> Delete(string id)
         {
             await _specializationService.DeleteSpecialization(id);
