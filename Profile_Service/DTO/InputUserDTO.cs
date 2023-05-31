@@ -5,6 +5,7 @@ namespace Profile_Service.DTO
 {
     public class InputUserDTO
     {
+        public string? Id { get; set; }
         public string? FirstName { get; set; }
 
         public string? LastName { get; set; }
