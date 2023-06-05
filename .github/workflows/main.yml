@@ -18,8 +18,7 @@ jobs:
           tenant: ${{ secrets.tenant }}
           registry: ${{ secrets.registry }}
           repository: ${{ secrets.repository }}
-          image:  profile-image
-          folder: ./Profile_Service
+          image: profile
           branch: master
           tag: ${{ github.sha }}
       - name: Azure login
