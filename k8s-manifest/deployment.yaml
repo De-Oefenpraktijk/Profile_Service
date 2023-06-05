@@ -2,7 +2,7 @@ kind: Deployment
 apiVersion: apps/v1
 metadata:
   name: profile-service
-  namespace: cdtest
+  namespace: ingress-basic
 spec:
   replicas: 1
   selector:
