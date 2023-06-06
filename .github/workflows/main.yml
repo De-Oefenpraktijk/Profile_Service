@@ -9,7 +9,7 @@ env:
   CONTAINER_NAME: "profile"
   RESOURCE_GROUP: "RGR-DeOefenpraktijk"
   CLUSTER_NAME: "oefenpraktijk"
-  DEPLOYMENT_MANIFEST_PATH: "./k8s-manifest"
+  DEPLOYMENT_MANIFEST_PATH: "./k8s-manifest/deployment.yaml"
 
 jobs:
   buildImage:
