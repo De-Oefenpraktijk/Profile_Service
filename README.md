@@ -1,4 +1,4 @@
-# Profile Service     
+# Profile Service    
 This is the profile service for our *Oefenpraktijk* project
 
 ## Docker
