@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using EventBus.Messages.Events;
 using MassTransit;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.CodeAnalysis;
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -141,6 +142,29 @@ namespace Profile_Service.Services
             await _context.Users.ReplaceOneAsync(x => x.Email == email, existingUser);
 
             return true;
+        }
+
+        public async Task<List<OutputUserDTO>> GetAllUsersStartsWith(string searchPattern)
+        {
+            List<User> users = new List<User>();
+            // users = await _context.Users.Find(_ => true).ToListAsync();
+            if (searchPattern == "*")
+            {
+                // 10 users limit
+                int limit = 10;
+                users = await _context.Users.Find(_ => true).Limit(limit).ToListAsync();
+            }
+            else
+            {
+                users = await _context.Users.Find(user => user.Email != null && user.Email.StartsWith(searchPattern)).ToListAsync();
+            }
+
+            if (users == null)
+            {
+                throw new Exception("No users found!");
+            }
+            List<OutputUserDTO> result = _mapper.Map<List<User>, List<OutputUserDTO>>(users);
+            return result;
         }
     }
 }

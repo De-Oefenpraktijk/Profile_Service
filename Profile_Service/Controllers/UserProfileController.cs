@@ -54,8 +54,7 @@ namespace Profile_Service.Controllers
         [Authorize()]
         public async Task<ActionResult<List<UserActivityStatusDTO>>> GetEveryonesActivityStatus()
         {
-           List<UserActivityStatusDTO> userActivityStatusDTOs = await _userService.GetAllActivityStatuses();
-
+            List<UserActivityStatusDTO> userActivityStatusDTOs = await _userService.GetAllActivityStatuses();
             return Ok(userActivityStatusDTOs);
         }
 
@@ -100,6 +99,16 @@ namespace Profile_Service.Controllers
         {
             await _userService.DeleteUser(Id);
             return Ok();
+        }
+
+
+        [HttpGet("GetAllUsersStartsWith/{searchPattern}")]
+        [Authorize()]
+        public async Task<ActionResult> GetAllUsersStartsWith(string searchPattern)
+        {
+            List<OutputUserDTO> users = await _userService.GetAllUsersStartsWith(searchPattern);
+
+            return Ok(users);
         }
     }
 }
