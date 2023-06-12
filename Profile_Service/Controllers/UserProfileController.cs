@@ -29,6 +29,7 @@ namespace Profile_Service.Controllers
 
 
         [HttpGet("GetUserById/{Id}")]
+        [Authorize("manage:profile")]
         public async Task<ActionResult<OutputUserDTO>> GetUserById(string Id)
         {
             OutputUserDTO user = await _userService.GetUserByID(Id);
@@ -39,6 +40,7 @@ namespace Profile_Service.Controllers
         }
 
         [HttpGet("GetUserByEmail/{Email}")]
+        [Authorize("manage:profile")]
         public async Task<ActionResult<OutputUserDTO>> GetUserByEmail(string Email)
         {
             OutputUserDTO user = await _userService.GetUserByEmail(Email);
@@ -49,15 +51,16 @@ namespace Profile_Service.Controllers
         }
 
         [HttpGet("GetEveryonesActivityStatus")]
+        [Authorize()]
         public async Task<ActionResult<List<UserActivityStatusDTO>>> GetEveryonesActivityStatus()
         {
-           List<UserActivityStatusDTO> userActivityStatusDTOs = await _userService.GetAllActivityStatuses();
-
+            List<UserActivityStatusDTO> userActivityStatusDTOs = await _userService.GetAllActivityStatuses();
             return Ok(userActivityStatusDTOs);
         }
 
 
         [HttpPost("InsertUser")]
+        [Authorize("create:user")]
         public async Task<ActionResult> InsertUser(InputUserDTO User)
         {
             OutputUserDTO newUser = await _userService.CreateUser(User);
@@ -67,6 +70,7 @@ namespace Profile_Service.Controllers
 
 
         [HttpPut("UpdateUser/{Id}")]
+        [Authorize("manage:profile")]
         public async Task<ActionResult> UpdateUser(InputUpdateUserDTO User, string Id)
         {
             OutputUserDTO updatedUser = await _userService.UpdateUser(User, Id);
@@ -74,6 +78,7 @@ namespace Profile_Service.Controllers
         }
 
         [HttpPut("UpdateActivityStatus/{email}")]
+        [Authorize()]
         public async Task<ActionResult> UpdateActivityStatus(string email)
         {
             bool updatedUser = await _userService.UpdateActivityStatus(email);
@@ -81,6 +86,7 @@ namespace Profile_Service.Controllers
         }
 
         [HttpPut("UpdateUserByEmail/{Email}")]
+        [Authorize("manage:profile")]
         public async Task<ActionResult> UpdateUserByEmail(InputUpdateUserDTO User, string Email)
         {
             OutputUserDTO updatedUser = await _userService.UpdateUserByEmail(User, Email);
@@ -88,10 +94,21 @@ namespace Profile_Service.Controllers
         }
 
         [HttpDelete("DeleteUser/{Id}")]
+        [Authorize("manage:profile")]
         public async Task<ActionResult> DeleteUser(string Id)
         {
             await _userService.DeleteUser(Id);
             return Ok();
+        }
+
+
+        [HttpGet("GetAllUsersStartsWith/{searchPattern}")]
+        [Authorize()]
+        public async Task<ActionResult> GetAllUsersStartsWith(string searchPattern)
+        {
+            List<OutputUserDTO> users = await _userService.GetAllUsersStartsWith(searchPattern);
+
+            return Ok(users);
         }
     }
 }

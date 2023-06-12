@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Profile_Service.DTO;
 using Profile_Service.Services;
 
@@ -16,6 +17,7 @@ namespace Profile_Service.Controllers
         }
 
         [HttpGet("GetAllFunctions")]
+        [Authorize()]
         public async Task<ActionResult<IEnumerable<FunctionDTO>>> GetAll()
         {
             var functions = await _functionService.GetAll();
@@ -23,6 +25,7 @@ namespace Profile_Service.Controllers
         }
 
         [HttpPost("AddFunction")]
+        [Authorize("manage:functions")]
         public async Task<IActionResult> AddFunction(AddFunctionDTO function)
         {
             FunctionDTO newFunction = await _functionService.AddFunction(function);
@@ -30,6 +33,7 @@ namespace Profile_Service.Controllers
         }
 
         [HttpDelete("DeleteFunction")]
+        [Authorize("manage:functions")]
         public async Task<IActionResult> DeleteFunction(string id)
         {
             var result = await _functionService.DeleteFunction(id);

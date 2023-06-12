@@ -21,6 +21,7 @@ namespace Profile_Service.Controllers
 
         // GET: api/Education
         [HttpGet("GetEducations")]
+        [Authorize()]
         public async Task<ActionResult<IEnumerable<EducationDTO>>> Get()
         {
             var educations = await _educationService.GetEducations();
@@ -29,6 +30,7 @@ namespace Profile_Service.Controllers
 
         // GET: api/Education/5
         [HttpGet("GetEducation/{Id}")]
+        [Authorize()]
         public async Task<ActionResult<IEnumerable<EducationDTO>>> GetById(string Id)
         {
             var education = await _educationService.GetEducationByID(Id);
@@ -40,6 +42,7 @@ namespace Profile_Service.Controllers
 
         // POST: api/Education
         [HttpPost("NewEducation")]
+        [Authorize("manage:educations")]
         public async Task<IActionResult> Post(EducationDTO education)
         {
             await _educationService.AddEducation(education);
@@ -48,6 +51,7 @@ namespace Profile_Service.Controllers
 
         // PUT: api/Education/5
         [HttpPut("UpdateEducation/{Id}")]
+        [Authorize("manage:educations")]
         public async Task<ActionResult> UpdateEducation(EducationDTO education, string Id)
         {
             var updatedEducation = await _educationService.UpdateEducation(education, Id);
@@ -57,6 +61,7 @@ namespace Profile_Service.Controllers
 
         // DELETE: api/Education/5
         [HttpDelete("DeleteEducation/{Id}")]
+        [Authorize("manage:educations")]
         public async Task<IActionResult> Delete(string Id)
         {
             await _educationService.DeleteEducation(Id);
