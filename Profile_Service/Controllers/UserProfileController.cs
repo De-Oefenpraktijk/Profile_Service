@@ -103,7 +103,7 @@ namespace Profile_Service.Controllers
 
 
         [HttpGet("GetAllUsersStartsWith/{searchPattern}")]
-        // TODO: Add authorization
+        [Authorize()]
         public async Task<ActionResult> GetAllUsersStartsWith(string searchPattern)
         {
             List<OutputUserDTO> users = await _userService.GetAllUsersStartsWith(searchPattern);
