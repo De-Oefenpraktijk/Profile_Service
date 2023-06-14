@@ -5,7 +5,6 @@ using Profile_Service.DTO;
 using Profile_Service.Services;
 using Microsoft.EntityFrameworkCore.Migrations.Operations;
 using AutoMapper;
-using EventBus.Messages.Events;
 using MongoDB.Bson;
 using Microsoft.AspNetCore.Authorization;
 
