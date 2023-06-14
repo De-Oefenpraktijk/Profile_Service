@@ -4,7 +4,6 @@ using MongoDB.Bson.Serialization;
 using MongoDB.Bson;
 using Profile_Service.Entities;
 using Profile_Service.Services;
-using MassTransit;
 using Microsoft.AspNetCore.Authorization;
 using Social_Service.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -61,15 +60,6 @@ builder.Services.AddScoped<SpecializationService>();
 builder.Services.AddScoped<FunctionService>();
 
 builder.Services.AddControllers();
-
-// Configure host
-builder.Services.AddMassTransit(config =>
-{
-    config.UsingRabbitMq((ctx, cfg) =>
-    {
-        cfg.Host(builder.Configuration["EventBusSettings:HostAddress"]);
-    });
-});
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

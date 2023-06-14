@@ -1,6 +1,4 @@
 ﻿using AutoMapper;
-using EventBus.Messages.Events;
-using MassTransit;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.CodeAnalysis;
 using MongoDB.Bson;
@@ -16,13 +14,11 @@ namespace Profile_Service.Services
     {
         private readonly DBContext _context;
         private readonly IMapper _mapper;
-        private readonly IPublishEndpoint _publish;
 
-        public UserService(DBContext context, IMapper mapper, IPublishEndpoint publish)
+        public UserService(DBContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
-            _publish = publish;
         }
 
         public async Task<OutputUserDTO> CreateUser(InputUserDTO _user)
@@ -34,9 +30,6 @@ namespace Profile_Service.Services
             await _context.Users.InsertOneAsync(user);
 
             OutputUserDTO result = _mapper.Map<User, OutputUserDTO>(user);
-
-            ProfileUpdatedEvent message = _mapper.Map<OutputUserDTO, ProfileUpdatedEvent>(result);
-            await _publish.Publish(message);// Hier zit de error, of dit is de reden voor het lange wachten
 
             return result;
         }
@@ -105,9 +98,6 @@ namespace Profile_Service.Services
 
             OutputUserDTO result = _mapper.Map<User, OutputUserDTO>(user);
 
-            ProfileUpdatedEvent message = _mapper.Map<OutputUserDTO, ProfileUpdatedEvent>(result);
-            await _publish.Publish(message);
-
             return result;
         }
 
@@ -123,9 +113,6 @@ namespace Profile_Service.Services
             await _context.Users.ReplaceOneAsync(x => x.Email == Email, user);
 
             OutputUserDTO result = _mapper.Map<User, OutputUserDTO>(user);
-
-            ProfileUpdatedEvent message = _mapper.Map<OutputUserDTO, ProfileUpdatedEvent>(result);
-            await _publish.Publish(message);
 
             return result;
         }
