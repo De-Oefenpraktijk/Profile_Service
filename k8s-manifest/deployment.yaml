@@ -19,11 +19,6 @@ spec:
             - containerPort: 80
               protocol: TCP
           env:
-            - name: EventBusSettings__HostAddress
-              valueFrom:
-                secretKeyRef:
-                  name: env-secret
-                  key: eventbus
             - name: MongoDb__ConnectionString
               valueFrom:
                 secretKeyRef:
