@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using EventBus.Messages.Events;
 using Profile_Service.DTO;
 using Profile_Service.Entities;
 namespace Profile_Service.Mapper
@@ -9,8 +8,6 @@ namespace Profile_Service.Mapper
     {
         public MapperProfile()
         {
-            CreateMap<User, ProfileUpdatedEvent>().ReverseMap();
-            CreateMap<OutputUserDTO, ProfileUpdatedEvent>().ReverseMap();
             CreateMap<User, OutputUserDTO>().ReverseMap();
             CreateMap<User, InputUserDTO>().ReverseMap();
             CreateMap<User, InputUpdateUserDTO>().ReverseMap();
